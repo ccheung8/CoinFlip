@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CoinFlip
 {
@@ -12,6 +13,7 @@ namespace CoinFlip
         private SpriteFont _font;
 
         private IMiniGames _miniGames;
+        private KeyboardState prevKbd;
 
         public Game1()
         {
@@ -41,7 +43,15 @@ namespace CoinFlip
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _miniGames.Update();
+            // updates when game is first run
+            if (gameTime.TotalGameTime == TimeSpan.Zero) _miniGames.Update();
+
+            // updates when pressing button
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && prevKbd.IsKeyUp(Keys.Right)) {
+                _miniGames.Update();
+            }
+
+            prevKbd = Keyboard.GetState();
 
             base.Update(gameTime);
         }
@@ -50,7 +60,14 @@ namespace CoinFlip
         {
             GraphicsDevice.Clear(Color.White);
 
-            _miniGames.Draw(_spriteBatch, _font);
+            _spriteBatch.Begin();
+
+            _spriteBatch.DrawString(_font, "P1: " + _miniGames.p1Result, new Vector2(8), Color.Black);
+            _spriteBatch.DrawString(_font, "P2: " + _miniGames.p2Result, new Vector2(700, 8), Color.Black);
+
+            _spriteBatch.DrawString(_font, _miniGames.Result, new Vector2(400, 240), Color.Black);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

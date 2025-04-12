@@ -10,18 +10,19 @@ namespace CoinFlip {
     internal class RockPaperScissors : IMiniGames {
         private static Random random;
         private string[] Choices;
-        private string p1Result { get; set; }
-        private string p2Result { get; set; }
-        private string Result { get; set; }
+        public string p1Result { get; set; }
+        public string p2Result { get; set; }
+        public string Result { get; set; }
 
         public RockPaperScissors() {
             random = new Random();
             Choices = ["Rock", "Paper", "Scissors"];
+
         }
 
         public void Update() {
-            p1Result = Choices[2];
-            p2Result = Choices[1];
+            p1Result = Choices[random.Next(3)];
+            p2Result = Choices[random.Next(3)];
 
             // game RPS logic
             if (p1Result == p2Result) {
@@ -35,15 +36,12 @@ namespace CoinFlip {
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
-            spriteBatch.Begin();
+        //public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
+        //    //spriteBatch.Begin();
 
-            spriteBatch.DrawString(font, "P1: " + p1Result, new Vector2(8), Color.Black);
-            spriteBatch.DrawString(font, "P2: " + p2Result, new Vector2(700, 8), Color.Black);
+            
 
-            spriteBatch.DrawString(font, Result, new Vector2(400, 240), Color.Black);
-
-            spriteBatch.End();
-        }
+        //    //spriteBatch.End();
+        //}
     }
 }
