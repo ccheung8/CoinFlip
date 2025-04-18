@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CoinFlip {
     internal class DiceRoll : IMiniGames {
@@ -25,6 +26,10 @@ namespace CoinFlip {
             } else {
                 Result = "Player 2 Wins!";
             }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont) {
+
         }
     }
 }

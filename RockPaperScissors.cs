@@ -35,5 +35,9 @@ namespace CoinFlip {
                 Result = "Player 1 Wins!";
             }
         }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont) {
+
+        }
     }
 }

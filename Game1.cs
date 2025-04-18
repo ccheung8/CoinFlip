@@ -73,11 +73,16 @@ namespace CoinFlip
             _spriteBatch.Begin();
 
             _spriteBatch.DrawString(_font, "P1: " + _miniGame.p1Result, new Vector2(8), Color.Black);
-            //_spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(700, 8), Color.Black);
             DrawStringAligned(_font, "P2: " + _miniGame.p2Result, "Right", Color.Black);
 
-            //_spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(400, 240), Color.Black);
             DrawStringAligned(_font, _miniGame.Result, "Center", Color.Black);
+
+            Texture2D rectangle = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            rectangle.SetData(new[] { Color.Black });
+
+            //Mouse.GetState().X;
+
+            _spriteBatch.Draw(rectangle, new Rectangle(100, 100, 100, 100), Color.Black);
 
             _spriteBatch.End();
 
