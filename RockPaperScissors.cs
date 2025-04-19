@@ -37,7 +37,11 @@ namespace CoinFlip {
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
+            string message = "1: Rock, 2: Paper, 3: Scissors";
+            int center = StringAlignment.horzCenter(font, message);
+            int bottom = StringAlignment.Bottom(font, message);
 
+            spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
         }
     }
 }

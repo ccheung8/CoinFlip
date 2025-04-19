@@ -72,18 +72,18 @@ namespace CoinFlip
             _spriteBatch.Begin();
 
             if (_miniGame != null) {
+                _miniGame.Draw(_spriteBatch, _font);
+                
                 _spriteBatch.DrawString(_font, "P1: " + _miniGame.p1Result, new Vector2(8), Color.Black);
 
                 // draws right aligned string for p2 result
                 int rightAlignedCoord = StringAlignment.Right(_font, "P2: " + _miniGame.p2Result);
                 _spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
-                //DrawStringAligned(_font, "P2: " + _miniGame.p2Result, "Right", Color.Black);
 
                 // draws center aligned string for result
                 int xCenterCoord = StringAlignment.horzCenter(_font, _miniGame.Result);
                 int yCenterCoord = StringAlignment.vertCenter(_font, _miniGame.Result);
                 _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
-                //DrawStringAligned(_font, _miniGame.Result, "Center", Color.Black);
             }
 
 
@@ -97,20 +97,6 @@ namespace CoinFlip
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        // draws an aligned string based on alignment value passed
-        public void DrawStringAligned(SpriteFont font, string text, string alignment, Color color) {
-            Vector2 textSize = font.MeasureString(text);
-            // values are casted to int from float to prevent text distortion from non int values
-            if (alignment.Equals("Right")) {
-                _spriteBatch.DrawString(font, text, new Vector2((int)(GraphicsDevice.Viewport.Width - textSize.X - 8), 8), color);
-            }
-            else if (alignment.Equals("Center")) {
-                _spriteBatch.DrawString(font, text,
-                    new Vector2((int)((GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2)), (int)(GraphicsDevice.Viewport.Height / 2)),
-                    color);
-            }
         }
     }
 }
