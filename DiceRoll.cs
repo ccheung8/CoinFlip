@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CoinFlip {
     internal class DiceRoll : IMiniGames {
@@ -18,24 +20,35 @@ namespace CoinFlip {
         }
 
         public void Update() {
-            p1Result = Convert.ToString(random.Next(6) + 1);
-            p2Result = Convert.ToString(random.Next(6) + 1);
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && Game1.prevKbd.IsKeyUp(Keys.Space)) {
+                p1Result = Convert.ToString(random.Next(6) + 1);
 
-            if (p1Result == p2Result) {
-                Result = "It's a Tie!";
-            } else if (Convert.ToInt32(p1Result) >= Convert.ToInt32(p2Result)) {
-                Result = "Player 1 Wins!";
-            } else {
-                Result = "Player 2 Wins!";
+                p2Result = Convert.ToString(random.Next(6) + 1);
+
+                if (p1Result == p2Result) {
+                    Result = "It's a Tie!";
+                }
+                else if (Convert.ToInt32(p1Result) >= Convert.ToInt32(p2Result)) {
+                    Result = "Player 1 Wins!";
+                }
+                else {
+                    Result = "Player 2 Wins!";
+                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
             string message = "Press Space to Roll the Die";
-            int center = StringAlignment.horzCenter(font, message);
+            int center = StringAlignment.HorzCenter(font, message);
             int bottom = StringAlignment.Bottom(font, message);
 
             spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
+        }
+
+        public void Reset() {
+            p1Result = null;
+            p2Result = null;
+            Result = null;
         }
     }
 }

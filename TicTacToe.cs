@@ -23,5 +23,11 @@ namespace CoinFlip {
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
 
         }
+
+        public void Reset() {
+            p1Result = null;
+            p2Result = null;
+            Result = null;
+        }
     }
 }

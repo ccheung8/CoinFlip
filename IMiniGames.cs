@@ -13,5 +13,6 @@ namespace CoinFlip {
         string Result { get; set; }
         void Update();
         void Draw(SpriteBatch spriteBatch, SpriteFont font);
+        void Reset();
     }
 }

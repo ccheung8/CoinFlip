@@ -16,13 +16,13 @@ namespace CoinFlip {
         }
 
         // returns x coordinate of Vector2 for center aligned text
-        public static int horzCenter(SpriteFont font, string text) {
+        public static int HorzCenter(SpriteFont font, string text) {
             Vector2 textSize = font.MeasureString(text);
             return (int)((Game1._graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2));
         }
 
         // returns y coordinate of Vector2 for center aligned text
-        public static int vertCenter(SpriteFont font, string text) {
+        public static int VertCenter(SpriteFont font, string text) {
             Vector2 textSize = font.MeasureString(text);
             return (int)((Game1._graphics.GraphicsDevice.Viewport.Height / 2) - (textSize.Y / 2));
         }

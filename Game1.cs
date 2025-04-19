@@ -10,6 +10,7 @@ namespace CoinFlip
     public class Game1 : Game
     {
         public static GraphicsDeviceManager _graphics;
+        public static KeyboardState prevKbd;
 
         private SpriteBatch _spriteBatch;
         private SpriteFont _font;
@@ -17,7 +18,6 @@ namespace CoinFlip
 
         private List<IMiniGames> _miniGames;
         private IMiniGames _miniGame;
-        private KeyboardState prevKbd;
 
         public Game1()
         {
@@ -55,8 +55,13 @@ namespace CoinFlip
 
             // updates when pressing Right arrow button
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && prevKbd.IsKeyUp(Keys.Right)) {
-                _miniGame = _miniGames[_random.Next(2)];    // randomly chooses minigame
+                if (_miniGame != null) _miniGame.Reset();
 
+                _miniGame = _miniGames[_random.Next(2)];    // randomly chooses minigame
+            }
+
+            // calls minigame's update function if selected and result isn't determined
+            if (_miniGame != null && _miniGame.Result == null) {
                 _miniGame.Update();
             }
 
@@ -71,19 +76,23 @@ namespace CoinFlip
 
             _spriteBatch.Begin();
 
+            // only draws after minigame has been chosen
             if (_miniGame != null) {
                 _miniGame.Draw(_spriteBatch, _font);
                 
-                _spriteBatch.DrawString(_font, "P1: " + _miniGame.p1Result, new Vector2(8), Color.Black);
+                // only draws after player 1 and player 2 has gone
+                if (_miniGame.p1Result != null && _miniGame.p2Result != null) {
+                    _spriteBatch.DrawString(_font, "P1: " + _miniGame.p1Result, new Vector2(8), Color.Black);
 
-                // draws right aligned string for p2 result
-                int rightAlignedCoord = StringAlignment.Right(_font, "P2: " + _miniGame.p2Result);
-                _spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
+                    // draws right aligned string for p2 result
+                    int rightAlignedCoord = StringAlignment.Right(_font, "P2: " + _miniGame.p2Result);
+                    _spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
 
-                // draws center aligned string for result
-                int xCenterCoord = StringAlignment.horzCenter(_font, _miniGame.Result);
-                int yCenterCoord = StringAlignment.vertCenter(_font, _miniGame.Result);
-                _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
+                    // draws center aligned string for result
+                    int xCenterCoord = StringAlignment.HorzCenter(_font, _miniGame.Result);
+                    int yCenterCoord = StringAlignment.VertCenter(_font, _miniGame.Result);
+                    _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
+                }
             }
 
 
