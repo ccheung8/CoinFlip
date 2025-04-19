@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CoinFlip {
@@ -15,6 +16,7 @@ namespace CoinFlip {
         public DiceRoll() {
             random = new Random();
         }
+
         public void Update() {
             p1Result = Convert.ToString(random.Next(6) + 1);
             p2Result = Convert.ToString(random.Next(6) + 1);
@@ -28,8 +30,8 @@ namespace CoinFlip {
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont) {
-
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
+            //DrawStringAligned(font, "1: Rock, 2: Paper, 3: Scissors", "Center", Color.Black);
         }
     }
 }

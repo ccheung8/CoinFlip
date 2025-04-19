@@ -20,7 +20,7 @@ namespace CoinFlip {
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont) {
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
 
         }
     }
