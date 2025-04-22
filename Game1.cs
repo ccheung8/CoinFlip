@@ -34,8 +34,9 @@ namespace CoinFlip
         protected override void Initialize()
         {
             _miniGames = new List<IMiniGames>() {
-                new RockPaperScissors(),
-                new DiceRoll()
+                //new RockPaperScissors(),
+                //new DiceRoll(),
+                new TicTacToe()
             };
 
             base.Initialize();
@@ -55,9 +56,10 @@ namespace CoinFlip
 
             // updates when pressing Right arrow button
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && prevKbd.IsKeyUp(Keys.Right)) {
+                // resets minigame before switching
                 if (_miniGame != null) _miniGame.Reset();
 
-                _miniGame = _miniGames[_random.Next(2)];    // randomly chooses minigame
+                _miniGame = _miniGames[0];    // randomly chooses minigame
             }
 
             // calls minigame's update function if selected and result isn't determined
@@ -94,14 +96,6 @@ namespace CoinFlip
                     _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
                 }
             }
-
-
-            //Texture2D rectangle = new Texture2D(_graphics.GraphicsDevice, 1, 1);
-            //rectangle.SetData(new[] { Color.Black });
-
-            //Mouse.GetState().X;
-
-            //_spriteBatch.Draw(rectangle, new Rectangle(100, 100, 100, 100), Color.Black);
 
             _spriteBatch.End();
 
