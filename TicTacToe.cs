@@ -119,6 +119,9 @@ namespace CoinFlip {
             CheckWinner(Board[0, 0], Board[1, 1], Board[2, 2]);
             // won by forwardslash (/)
             CheckWinner(Board[2, 0], Board[1, 1], Board[0, 2]);
+
+            // checks to see if game is drawn
+            CheckTie();
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
@@ -128,14 +131,15 @@ namespace CoinFlip {
 
             spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
 
-            // hard code in placement for x and y - can refactor later
-            // CHANGE TO PLACE BASED ON BOARD STATE
+            // places X's and O's based on board state
             for (int i = 0; i < Board.GetLength(0); i++ ) {
                 for (int j = 0; j < Board.GetLength(0); j++) {
                     switch (Board[i, j]) {
+                        // place X if board value is 1
                         case 1:
                             spriteBatch.Draw(X, ConstructDestRect(i, j), Color.White);
                             break;
+                        // place O if board value is 2
                         case 2:
                             spriteBatch.Draw(O, ConstructDestRect(i, j), Color.White);
                             break;
@@ -146,6 +150,24 @@ namespace CoinFlip {
             lastMouseState = Mouse.GetState();
 
             DrawBoard(spriteBatch);
+        }
+
+        private void CheckTie() {
+            int zeroCounter = 0;
+            for (int i = 0; i < Board.GetLength(0); i++) {
+                for (int j = 0; j < Board.GetLength(0); j++) {
+                    if (Board[i, j] == 0) {
+                        zeroCounter++;
+                    }
+                }
+            }
+
+            // if whole board is filled
+            if (zeroCounter == 0) {
+                p1Result = "Player 1 (X) Tied!";
+                p2Result = "Player 2 (O) Tied!";
+                Result = "Draw!";
+            }
         }
 
         private void CheckWinner(int valOne, int valTwo, int valThree) {
