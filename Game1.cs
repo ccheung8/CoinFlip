@@ -34,10 +34,12 @@ namespace CoinFlip
         protected override void Initialize()
         {
             _miniGames = new List<IMiniGames>() {
-                //new RockPaperScissors(),
-                //new DiceRoll(),
-                new TicTacToe()
+                //new RockPaperScissors(this.Content),
+                //new DiceRoll(this.Content),
+                new TicTacToe(this.Content)
             };
+
+            IsMouseVisible = true;
 
             base.Initialize();
         }

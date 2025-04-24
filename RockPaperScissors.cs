@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -15,7 +16,7 @@ namespace CoinFlip {
         public string p2Result { get; set; }
         public string Result { get; set; }
 
-        public RockPaperScissors() {
+        public RockPaperScissors(ContentManager content) {
             random = new Random();
             Choices = ["Rock", "Paper", "Scissors"];
         }

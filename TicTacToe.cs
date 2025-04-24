@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -15,17 +16,40 @@ namespace CoinFlip {
         public string p2Result { get; set; }
         public string Result { get; set; }
 
-        int[] Board;    // stores state of game. 1 = X, 2 = O
+        int[,] Board;    // stores state of game. 1 = X, 2 = O
+        private int boardVal;
 
+
+        // instance variables for board drawing
         private Texture2D rectangle;    // rectangle texture to draw
         private int rectDimension;      // dimension of horizontal width and vertical height for square shape
         private int rectY;              // determines Y position where board starts (centered on screen)
         private int rectX;              // determines X position where board starts (centered on screen)
         private int lineThickness;      // determines thickness of lines for board
+        private int axisOffset;
 
-        public TicTacToe() {
+        private Texture2D X;
+        private Texture2D O;
+        private Texture2D turn;
+
+        private MouseState lastMouseState;
+
+        // instance variables for hover state
+        private int hoverRow;
+        private int hoverCol;
+
+        public TicTacToe(ContentManager content) {
             random = new Random();
-            Board = new int[9];
+            Board = new int[3, 3];
+
+            hoverRow = hoverCol = 0;
+
+            //for (int i = 0; i < Board.GetLength(0); i++) {
+            //    Debug.WriteLine("");
+            //    for (int j = 0; j < Board.GetLength(0); j++) {
+            //        Debug.Write("Board[" + i + "][" + j + "]: " + Board[i, j] + ", ");
+            //    }
+            //}
 
             rectangle = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
             rectangle.SetData(new[] { Color.Black });
@@ -37,10 +61,64 @@ namespace CoinFlip {
             // determiens placement of x axis for horizontal stripes
             rectX = (int)((Game1._graphics.GraphicsDevice.Viewport.Width - rectDimension) / 2);
             lineThickness = 20;
+
+            axisOffset = (int)((rectDimension - (2 * lineThickness)) / 3);
+
+            X = content.Load<Texture2D>("TicTacToe/X");
+            O = content.Load<Texture2D>("TicTacToe/O");
+            turn = X;
+            boardVal = 1;
         }
 
         public void Update() {
+            // checks if mouse is hovering over a row
+            if (Mouse.GetState().Y >= rectY && Mouse.GetState().Y <= rectY + axisOffset) {
+                hoverRow = 1;
+            }
+            else if (Mouse.GetState().Y >= rectY + axisOffset + lineThickness
+                    && Mouse.GetState().Y <= rectY + (2 * axisOffset) + lineThickness) {
+                hoverRow = 2;
+            }
+            else if (Mouse.GetState().Y >= rectY + (2 * axisOffset) + (2 * lineThickness)
+                    && Mouse.GetState().Y <= rectY + (3 * axisOffset) + (2 * lineThickness)) {
+                hoverRow = 3;
+            }
+            else {
+                hoverRow = 0;
+            }
 
+            // checks if mouse is hovering over a col
+            if (Mouse.GetState().X >= rectX && Mouse.GetState().X <= rectX + axisOffset) {
+                hoverCol = 1;
+            }
+            else if (Mouse.GetState().X >= rectX + axisOffset + lineThickness
+                    && Mouse.GetState().X <= rectX + (2 * axisOffset) + lineThickness) {
+                hoverCol = 2;
+            }
+            else if (Mouse.GetState().X >= rectX + (2 * axisOffset) + (2 * lineThickness)
+                        && Mouse.GetState().X <= rectX + (3 * axisOffset) + (2 * lineThickness)) {
+                hoverCol = 3;
+            }
+            else {
+                hoverCol = 0;
+            }
+
+            // activate after pressing and releasing left click
+            // updates board state then switches turns
+            if (Mouse.GetState().LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed) {
+                if (hoverRow != 0 && hoverCol != 0) {
+                    Board[(hoverRow - 1), (hoverCol - 1)] = boardVal;
+                }
+
+                if (turn == X) {
+                    turn = O;
+                    boardVal = 2;
+                }
+                else {
+                    turn = X;
+                    boardVal = 1;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
@@ -50,18 +128,62 @@ namespace CoinFlip {
 
             spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
 
-            if ((Mouse.GetState().X >= rectX && Mouse.GetState().X <= rectX + rectDimension) &&
-                        (Mouse.GetState().Y >= rectY && Mouse.GetState().Y <= rectY + rectDimension)) {
-                spriteBatch.DrawString(font, "Hovering over board", new Vector2(24), Color.Black);
+            // hard code in placement for x and y - can refactor later
+            // CHANGE TO PLACE BASED ON BOARD STATE
+            for (int i = 0; i < Board.GetLength(0); i++ ) {
+                for (int j = 0; j < Board.GetLength(0); j++) {
+                    switch (Board[i, j]) {
+                        case 1:
+                            spriteBatch.Draw(X, ConstructDestRect(i, j), Color.White);
+                            break;
+                        case 2:
+                            spriteBatch.Draw(O, ConstructDestRect(i, j), Color.White);
+                            break;
+                    }
+                }
             }
+
+            lastMouseState = Mouse.GetState();
 
             DrawBoard(spriteBatch);
         }
 
-        private void DrawBoard(SpriteBatch spriteBatch) {
-            // calculates offset to place stripes
-            int axisOffset = (int)((rectDimension - (2 * lineThickness)) / 3);
+        private Rectangle ConstructDestRect(int row, int col) {
+            int x = 0;
+            int y = 0;
 
+            switch (row) {
+                case 0:
+                    y = rectY;
+                    break;
+
+                case 1:
+                    y = rectY + axisOffset + lineThickness;
+                    break;
+
+                case 2:
+                    y = rectY + (2 * axisOffset) + (2 * lineThickness);
+                    break;
+            }
+
+            switch (col) {
+                case 0:
+                    x = rectX;
+                    break;
+
+                case 1:
+                    x = rectX + axisOffset + lineThickness;
+                    break;
+
+                case 2:
+                    x = rectX + (2 * axisOffset) + (2 * lineThickness);
+                    break;
+            }
+
+            return new Rectangle(x, y, axisOffset, axisOffset);
+        }
+
+        private void DrawBoard(SpriteBatch spriteBatch) {
             // DRAWS BOARD
             // draws first vertical stripe
             spriteBatch.Draw(
@@ -113,7 +235,7 @@ namespace CoinFlip {
             p1Result = null;
             p2Result = null;
             Result = null;
-            Board = new int[9];
+            Board = new int[3, 3];
         }
     }
 }
