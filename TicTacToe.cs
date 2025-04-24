@@ -19,7 +19,6 @@ namespace CoinFlip {
         int[,] Board;    // stores state of game. 1 = X, 2 = O
         private int boardVal;
 
-
         // instance variables for board drawing
         private Texture2D rectangle;    // rectangle texture to draw
         private int rectDimension;      // dimension of horizontal width and vertical height for square shape
@@ -30,7 +29,6 @@ namespace CoinFlip {
 
         private Texture2D X;
         private Texture2D O;
-        private Texture2D turn;
 
         private MouseState lastMouseState;
 
@@ -43,13 +41,6 @@ namespace CoinFlip {
             Board = new int[3, 3];
 
             hoverRow = hoverCol = 0;
-
-            //for (int i = 0; i < Board.GetLength(0); i++) {
-            //    Debug.WriteLine("");
-            //    for (int j = 0; j < Board.GetLength(0); j++) {
-            //        Debug.Write("Board[" + i + "][" + j + "]: " + Board[i, j] + ", ");
-            //    }
-            //}
 
             rectangle = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
             rectangle.SetData(new[] { Color.Black });
@@ -66,7 +57,6 @@ namespace CoinFlip {
 
             X = content.Load<Texture2D>("TicTacToe/X");
             O = content.Load<Texture2D>("TicTacToe/O");
-            turn = X;
             boardVal = 1;
         }
 
@@ -110,15 +100,25 @@ namespace CoinFlip {
                     Board[(hoverRow - 1), (hoverCol - 1)] = boardVal;
                 }
 
-                if (turn == X) {
-                    turn = O;
+                if (boardVal == 1) {
                     boardVal = 2;
                 }
                 else {
-                    turn = X;
                     boardVal = 1;
                 }
             }
+
+            // checks if someone has won the game
+            for (int i = 0; i < Board.GetLength(0); i++) {
+                // won by horizontal matching
+                CheckWinner(Board[i, 0], Board[i, 1], Board[i, 2]);
+                // won by vertical matching
+                CheckWinner(Board[0, i], Board[1, i], Board[2, i]);
+            }
+            // won by backslash (\)
+            CheckWinner(Board[0, 0], Board[1, 1], Board[2, 2]);
+            // won by forwardslash (/)
+            CheckWinner(Board[2, 0], Board[1, 1], Board[0, 2]);
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
@@ -146,6 +146,23 @@ namespace CoinFlip {
             lastMouseState = Mouse.GetState();
 
             DrawBoard(spriteBatch);
+        }
+
+        private void CheckWinner(int valOne, int valTwo, int valThree) {
+            if (valOne != 0 && valTwo != 0 && valThree != 0) { 
+                if (valOne == valTwo && valTwo == valThree) {
+                    if (valOne == 1) {
+                        p1Result = "Player 1 (X) Wins!";
+                        p2Result = "Player 2 (O) Lost!";
+                        Result = "Player 1 Wins!";
+                    }
+                    else {
+                        p1Result = "Player 1 (X) Lost!";
+                        p2Result = "Player 2 (O) Wins!";
+                        Result = "Player 2 Wins!";
+                    }
+                }
+            }
         }
 
         private Rectangle ConstructDestRect(int row, int col) {
@@ -236,6 +253,7 @@ namespace CoinFlip {
             p2Result = null;
             Result = null;
             Board = new int[3, 3];
+            boardVal = 1;
         }
     }
 }
