@@ -14,16 +14,17 @@ namespace CoinFlip {
         int[,] Board;    // stores state of game. 1 = X, 2 = O
         private int boardVal;
 
+        private const int LINE_THICKNESS = 20;      // determines thickness of lines for board
+
         // instance variables for board drawing
         private Texture2D rectangle;    // rectangle texture to draw
-        private int rectDimension;      // dimension of horizontal width and vertical height for square shape
-        private int rectY;              // determines Y position where board starts (centered on screen)
-        private int rectX;              // determines X position where board starts (centered on screen)
-        private int lineThickness;      // determines thickness of lines for board
-        private int axisOffset;         // determines size of rectangles
+        private readonly int rectDimension;      // dimension of horizontal width and vertical height for square shape
+        private readonly int rectY;              // determines Y position where board starts (centered on screen)
+        private readonly int rectX;              // determines X position where board starts (centered on screen)
+        private readonly int axisOffset;         // determines size of rectangles
 
-        private Texture2D X;
-        private Texture2D O;
+        private readonly Texture2D X;
+        private readonly Texture2D O;
 
         private MouseState lastMouseState;
 
@@ -43,12 +44,11 @@ namespace CoinFlip {
             // dimension of tic tac toe board takes up around 1/4 of window height
             rectDimension = (int)(Game1._graphics.GraphicsDevice.Viewport.Height / 1.25f);
             // determines placement of y axis for vertical stripes
-            rectY = (int)((Game1._graphics.GraphicsDevice.Viewport.Height - rectDimension) / 2) - 16;
+            rectY = ((Game1._graphics.GraphicsDevice.Viewport.Height - rectDimension) / 2) - 16;
             // determiens placement of x axis for horizontal stripes
-            rectX = (int)((Game1._graphics.GraphicsDevice.Viewport.Width - rectDimension) / 2);
-            lineThickness = 20;
+            rectX = ((Game1._graphics.GraphicsDevice.Viewport.Width - rectDimension) / 2);
 
-            axisOffset = (int)((rectDimension - (2 * lineThickness)) / 3);
+            axisOffset = ((rectDimension - (2 * LINE_THICKNESS)) / 3);
 
             X = content.Load<Texture2D>("TicTacToe/X");
             O = content.Load<Texture2D>("TicTacToe/O");
@@ -60,12 +60,12 @@ namespace CoinFlip {
             if (Mouse.GetState().Y >= rectY && Mouse.GetState().Y <= rectY + axisOffset) {
                 hoverRow = 1;
             }
-            else if (Mouse.GetState().Y >= rectY + axisOffset + lineThickness
-                    && Mouse.GetState().Y <= rectY + (2 * axisOffset) + lineThickness) {
+            else if (Mouse.GetState().Y >= rectY + axisOffset + LINE_THICKNESS
+                    && Mouse.GetState().Y <= rectY + (2 * axisOffset) + LINE_THICKNESS) {
                 hoverRow = 2;
             }
-            else if (Mouse.GetState().Y >= rectY + (2 * axisOffset) + (2 * lineThickness)
-                    && Mouse.GetState().Y <= rectY + (3 * axisOffset) + (2 * lineThickness)) {
+            else if (Mouse.GetState().Y >= rectY + (2 * axisOffset) + (2 * LINE_THICKNESS)
+                    && Mouse.GetState().Y <= rectY + (3 * axisOffset) + (2 * LINE_THICKNESS)) {
                 hoverRow = 3;
             }
             else {
@@ -76,12 +76,12 @@ namespace CoinFlip {
             if (Mouse.GetState().X >= rectX && Mouse.GetState().X <= rectX + axisOffset) {
                 hoverCol = 1;
             }
-            else if (Mouse.GetState().X >= rectX + axisOffset + lineThickness
-                    && Mouse.GetState().X <= rectX + (2 * axisOffset) + lineThickness) {
+            else if (Mouse.GetState().X >= rectX + axisOffset + LINE_THICKNESS
+                    && Mouse.GetState().X <= rectX + (2 * axisOffset) + LINE_THICKNESS) {
                 hoverCol = 2;
             }
-            else if (Mouse.GetState().X >= rectX + (2 * axisOffset) + (2 * lineThickness)
-                        && Mouse.GetState().X <= rectX + (3 * axisOffset) + (2 * lineThickness)) {
+            else if (Mouse.GetState().X >= rectX + (2 * axisOffset) + (2 * LINE_THICKNESS)
+                        && Mouse.GetState().X <= rectX + (3 * axisOffset) + (2 * LINE_THICKNESS)) {
                 hoverCol = 3;
             }
             else {
@@ -187,11 +187,11 @@ namespace CoinFlip {
                     break;
 
                 case 1:
-                    y = rectY + axisOffset + lineThickness;
+                    y = rectY + axisOffset + LINE_THICKNESS;
                     break;
 
                 case 2:
-                    y = rectY + (2 * axisOffset) + (2 * lineThickness);
+                    y = rectY + (2 * axisOffset) + (2 * LINE_THICKNESS);
                     break;
             }
 
@@ -201,11 +201,11 @@ namespace CoinFlip {
                     break;
 
                 case 1:
-                    x = rectX + axisOffset + lineThickness;
+                    x = rectX + axisOffset + LINE_THICKNESS;
                     break;
 
                 case 2:
-                    x = rectX + (2 * axisOffset) + (2 * lineThickness);
+                    x = rectX + (2 * axisOffset) + (2 * LINE_THICKNESS);
                     break;
             }
 
@@ -220,7 +220,7 @@ namespace CoinFlip {
                 new Rectangle(
                     rectX + axisOffset,     // places first stripe at 1/3 of width
                     rectY,
-                    lineThickness,
+                    LINE_THICKNESS,
                     rectDimension           // rectDimension for height ensures square shape
                 ),
                 Color.Black
@@ -229,9 +229,9 @@ namespace CoinFlip {
             spriteBatch.Draw(
                 rectangle,
                 new Rectangle(
-                    rectX + (2 * axisOffset) + lineThickness,    // place second stripe at 2/3 of width accounting for width of first stripe
+                    rectX + (2 * axisOffset) + LINE_THICKNESS,    // place second stripe at 2/3 of width accounting for width of first stripe
                     rectY,
-                    lineThickness,
+                    LINE_THICKNESS,
                     rectDimension           // rectDimension for height ensures square shape
                 ),
                 Color.Black
@@ -243,7 +243,7 @@ namespace CoinFlip {
                     rectX,
                     rectY + axisOffset,    // places first stripe at 1/3 of height
                     rectDimension,         // rectDimension for width ensures square shape
-                    lineThickness
+                    LINE_THICKNESS
                 ),
                 Color.Black
             );
@@ -252,9 +252,9 @@ namespace CoinFlip {
                 rectangle,
                 new Rectangle(
                     rectX,
-                    rectY + (2 * axisOffset) + lineThickness,      // place second stripe at 2/3 of width accounting for width of first stripe
+                    rectY + (2 * axisOffset) + LINE_THICKNESS,      // place second stripe at 2/3 of width accounting for width of first stripe
                     rectDimension,         // rectDimension for width ensures square shape
-                    lineThickness
+                    LINE_THICKNESS
                 ),
                 Color.Black
             );

@@ -51,7 +51,13 @@ namespace CoinFlip {
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont) {
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
+            string message = "Memory";
+            int center = StringAlignment.HorzCenter(font, message);
+            int bottom = StringAlignment.Bottom(font, message);
+
+            spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
+
             foreach (Card card in Cards) {
                 card.Draw(spriteBatch);
             }
