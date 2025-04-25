@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +13,7 @@ namespace CoinFlip
 
         private SpriteBatch _spriteBatch;
         private SpriteFont _font;
-        private Random _random;
+        private static Random _random;
 
         private List<IMiniGames> _miniGames;
         private IMiniGames _miniGame;
@@ -36,7 +35,8 @@ namespace CoinFlip
             _miniGames = new List<IMiniGames>() {
                 //new RockPaperScissors(this.Content),
                 //new DiceRoll(this.Content),
-                new TicTacToe(this.Content)
+                //new TicTacToe(this.Content),
+                new Memory(this.Content)
             };
 
             IsMouseVisible = true;

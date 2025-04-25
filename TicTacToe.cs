@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +20,7 @@ namespace CoinFlip {
         private int rectY;              // determines Y position where board starts (centered on screen)
         private int rectX;              // determines X position where board starts (centered on screen)
         private int lineThickness;      // determines thickness of lines for board
-        private int axisOffset;
+        private int axisOffset;         // determines size of rectangles
 
         private Texture2D X;
         private Texture2D O;
@@ -100,12 +95,7 @@ namespace CoinFlip {
                     Board[(hoverRow - 1), (hoverCol - 1)] = boardVal;
                 }
 
-                if (boardVal == 1) {
-                    boardVal = 2;
-                }
-                else {
-                    boardVal = 1;
-                }
+                boardVal = boardVal == 1 ? 2 : 1;
             }
 
             // checks if someone has won the game
