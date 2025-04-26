@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,9 @@ namespace CoinFlip {
             random = new Random();
 
             Texture2D back = content.Load<Texture2D>("Memory/Card_Back");
-            int cardDistanceX = back.Width + CARD_SPACING;
-            int cardDistanceY = back.Height + CARD_SPACING;
-            int cardsCount = CARDS_ROW * CARDS_COL;
+            int cardDistanceX = back.Width + CARD_SPACING;   // amount of space each card takes on X
+            int cardDistanceY = back.Height + CARD_SPACING;  // amount of space each card takes on Y
+            int cardsCount = CARDS_ROW * CARDS_COL;          // number of cards
             int cardsCountHalf = cardsCount / 2;
 
             // initializes fronts of cards
@@ -38,8 +39,12 @@ namespace CoinFlip {
 
             // initalizes cards and adds to Cards list
             for (int i = 0; i < cardsCount; i++) {
-                int x = (cardDistanceX * (i % CARDS_COL)) + BOARD_SPACING;
-                int y = i <= 4 ? 0 : cardDistanceY;
+                // places cards horizontally in center of screen accounting for spacing of last card in row
+                int x = (cardDistanceX * (i % CARDS_COL)) + 
+                    ((Game1._graphics.GraphicsDevice.Viewport.Width - ((4 * cardDistanceX) + (cardDistanceX - CARD_SPACING))) / 2);
+                // places cards vertically in center of screen accounting for spacing of last card in row
+                int y = i <= 4 ? (Game1._graphics.GraphicsDevice.Viewport.Height / 2) - cardDistanceY - CARD_SPACING :
+                    Game1._graphics.GraphicsDevice.Viewport.Height / 2 - CARD_SPACING;
 
                 Cards.Add(new Card(back, fronts[i / 2], new Vector2(x, y)));
             }
