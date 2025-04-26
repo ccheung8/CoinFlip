@@ -111,7 +111,11 @@ namespace CoinFlip {
             CheckWinner(Board[2, 0], Board[1, 1], Board[0, 2]);
 
             // checks to see if game is drawn
-            CheckTie();
+            if (Result == null) {
+                CheckTie();
+            }
+
+            lastMouseState = Mouse.GetState();
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
@@ -136,8 +140,6 @@ namespace CoinFlip {
                     }
                 }
             }
-
-            lastMouseState = Mouse.GetState();
 
             DrawBoard(spriteBatch);
         }
