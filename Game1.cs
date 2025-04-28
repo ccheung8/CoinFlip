@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoinFlip.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using CoinFlip.States;
+using CoinFlip.Models.Memory;
 
 namespace CoinFlip
 {
@@ -36,8 +37,8 @@ namespace CoinFlip
             _miniGames = new List<IMiniGames>() {
                 //new RockPaperScissors(this.Content),
                 //new DiceRoll(this.Content),
-                //new TicTacToe(this.Content),
-                new Memory(this.Content)
+                new TicTacToe(this.Content),
+                //new Memory(this.Content)
             };
 
             IsMouseVisible = true;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CoinFlip.Models.Memory;
 
 namespace CoinFlip.States.MemoryStates {
     internal class ResolveTurnState : GameState<Memory> {

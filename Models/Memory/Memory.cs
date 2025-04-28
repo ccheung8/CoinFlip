@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -7,9 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using CoinFlip.States;
 using CoinFlip.States.MemoryStates;
-using System.Diagnostics;
 
-namespace CoinFlip {
+namespace CoinFlip.Models.Memory {
     internal class Memory : IMiniGames {
         private static Random random;
         public string p1Result {  get; set; }
@@ -35,9 +33,9 @@ namespace CoinFlip {
 
             Texture2D back = content.Load<Texture2D>("Memory/Card_Back");
             Rectangle window = Game1._graphics.GraphicsDevice.PresentationParameters.Bounds;
-            scale = (Game1._graphics.GraphicsDevice.Viewport.Height / 4) / back.Height; // gets 1/4 height of screen then divies by height to get scale factor
-            Point cardDistance = new Point((back.Width * scale) + CARD_SPACING, (back.Height * scale) + CARD_SPACING);  // amount of space each card takes on X and Y
-            Point boardSize = new Point((cardDistance.X * CARDS_COL) - CARD_SPACING, (cardDistance.Y * CARDS_ROW) - CARD_SPACING);
+            scale = Game1._graphics.GraphicsDevice.Viewport.Height / 4 / back.Height; // gets 1/4 height of screen then divies by height to get scale factor
+            Point cardDistance = new Point(back.Width * scale + CARD_SPACING, back.Height * scale + CARD_SPACING);  // amount of space each card takes on X and Y
+            Point boardSize = new Point(cardDistance.X * CARDS_COL - CARD_SPACING, cardDistance.Y * CARDS_ROW - CARD_SPACING);
             Point boardSpacing = new Point((window.Width - boardSize.X) / 2, (window.Height - boardSize.Y) / 2);
 
             int cardsCount = CARDS_ROW * CARDS_COL;          // number of cards
@@ -95,6 +93,7 @@ namespace CoinFlip {
             foreach (Card card in Cards) {
                 card.Reset();
             }
+            _gameState = new FlipFirstCardState();
         }
 
         public Card GetClickedCard() {
