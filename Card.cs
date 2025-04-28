@@ -17,7 +17,7 @@ namespace CoinFlip {
         private readonly int _scale;
         
         public int Id { get; }
-        public bool Visible { get; set; }
+        public bool Solved { get; set; }
 
         // rectangle for bounds of card for click functionality
         public Rectangle cardRectangle => new Rectangle((int)Position.X, (int)Position.Y, _activeTexture.Width * _scale, _activeTexture.Height * _scale);
@@ -29,23 +29,26 @@ namespace CoinFlip {
             Position = position;
             _activeTexture = _back;
             _scale = scale;
-            Visible = true;
+            Solved = false;
         }
 
         // flips card
         public void Flip() {
-            _flipped = !_flipped;
-            _activeTexture = _flipped ? _front : _back;
+            // flips card if not solved
+            if (!Solved) {
+                _flipped = !_flipped;
+                _activeTexture = _flipped ? _front : _back;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            if (Visible) spriteBatch.Draw(_activeTexture, Position, null, Color.White, 0, new Vector2(0, 0), _scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(_activeTexture, Position, null, Color.White, 0, Vector2.Zero, _scale, SpriteEffects.None, 0);
         }
 
         public void Reset() {
             _flipped = false;
             _activeTexture = _back;
-            Visible = true;
+            Solved = false;
         }
     }
 }

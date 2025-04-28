@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace CoinFlip {
-    internal interface IMiniGames {
+    public interface IMiniGames {
         string p1Result { get; set; }
         string p2Result { get; set; }
         string Result { get; set; }

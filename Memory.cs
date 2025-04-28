@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using CoinFlip.States;
+using CoinFlip.States.MemoryStates;
+using System.Diagnostics;
 
 namespace CoinFlip {
     internal class Memory : IMiniGames {
@@ -19,19 +22,24 @@ namespace CoinFlip {
         private const int CARD_SPACING = 10;
 
         private MouseState lastMouseState;
+        private GameState<Memory> _gameState;
 
         public List<Card> Cards { get; } = new List<Card>();
 
-        private Card firstCardChosen;   // stores first card player flipped
-        private Card secondCardChosen;  // stores second card player flipped
+        public Card firstCardChosen;   // stores first card player flipped
+        public Card secondCardChosen;  // stores second card player flipped
 
         public Memory(ContentManager content) {
             random = new Random();
+            _gameState = new FlipFirstCardState();
 
             Texture2D back = content.Load<Texture2D>("Memory/Card_Back");
+            Rectangle window = Game1._graphics.GraphicsDevice.PresentationParameters.Bounds;
             scale = (Game1._graphics.GraphicsDevice.Viewport.Height / 4) / back.Height; // gets 1/4 height of screen then divies by height to get scale factor
-            int cardDistanceX = (back.Width * scale) + CARD_SPACING;   // amount of space each card takes on X
-            int cardDistanceY = (back.Height * scale) + CARD_SPACING;  // amount of space each card takes on Y
+            Point cardDistance = new Point((back.Width * scale) + CARD_SPACING, (back.Height * scale) + CARD_SPACING);  // amount of space each card takes on X and Y
+            Point boardSize = new Point((cardDistance.X * CARDS_COL) - CARD_SPACING, (cardDistance.Y * CARDS_ROW) - CARD_SPACING);
+            Point boardSpacing = new Point((window.Width - boardSize.X) / 2, (window.Height - boardSize.Y) / 2);
+
             int cardsCount = CARDS_ROW * CARDS_COL;          // number of cards
             int cardsCountHalf = cardsCount / 2;
 
@@ -44,11 +52,10 @@ namespace CoinFlip {
             // initalizes cards and adds to Cards list
             for (int i = 0; i < cardsCount; i++) {
                 // places cards horizontally in center of screen accounting for spacing of last card in row
-                int x = (cardDistanceX * (i % CARDS_COL)) + 
-                    (Game1._graphics.GraphicsDevice.Viewport.Width - ((5 * cardDistanceX) - CARD_SPACING)) / 2;
+                int x = cardDistance.X * (i % CARDS_COL) + boardSpacing.X;
                 // places cards vertically in center of screen accounting for spacing of last card in row
-                int y = i <= 4 ? (Game1._graphics.GraphicsDevice.Viewport.Height / 2) - cardDistanceY - CARD_SPACING :
-                    (Game1._graphics.GraphicsDevice.Viewport.Height / 2) - CARD_SPACING;
+                int y = i <= 4 ? boardSpacing.Y :
+                    boardSpacing.Y + cardDistance.Y;
 
                 Cards.Add(new Card(i / 2, back, fronts[i / 2], new Vector2(x, y), scale));           
             }
@@ -56,29 +63,12 @@ namespace CoinFlip {
             Shuffle();
         }
 
-        public void Update() {
-            // flips card when lmb clicked and released
-            if (Mouse.GetState().LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed) {
-                // cycles through and finds which card is clicked, if any
-                foreach (Card card in Cards) {
-                    if (card.Visible) {
-                        if (card.cardRectangle.Contains(Mouse.GetState().X, Mouse.GetState().Y)) {
-                            card.Flip();
-                            // assigns cards based on first or second cards chosen
-                            if (firstCardChosen == null) {
-                                firstCardChosen = card;
-                            }
-                            else if (secondCardChosen == null) {
-                                secondCardChosen = card;
-                            }
+        public void ChangeState(GameState<Memory> state) {
+            if (state != null) _gameState = state;
+        }
 
-                            if (firstCardChosen != null && secondCardChosen != null) {
-                                CheckWinnerDelay(CheckWinner, 750);
-                            }
-                        }
-                    }
-                }
-            }
+        public void Update() {
+            _gameState.Update(this);
 
             lastMouseState = Mouse.GetState();
         }
@@ -96,6 +86,8 @@ namespace CoinFlip {
         }
 
         public void Reset() {
+            firstCardChosen = null;
+            secondCardChosen = null;
             p1Result = null;
             p2Result = null;
             Result = null;
@@ -105,22 +97,19 @@ namespace CoinFlip {
             }
         }
 
-        public async Task CheckWinnerDelay(Action action, int mili) {
-            await Task.Delay(mili);
-            action();
-        }
-
-        public void CheckWinner() {
-            if (firstCardChosen.Id == secondCardChosen.Id) {
-                firstCardChosen.Visible = secondCardChosen.Visible = false;
-            }
-            else {
-                firstCardChosen.Flip();
-                secondCardChosen.Flip();
+        public Card GetClickedCard() {
+            // flips card when lmb clicked and released
+            if (Mouse.GetState().LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed) {
+                // cycles through and finds which card is clicked, if any
+                foreach (Card card in Cards) {
+                    if (card.Solved) continue;
+                    if (card.cardRectangle.Contains(Mouse.GetState().X, Mouse.GetState().Y)) {
+                        return card;
+                    }
+                }
             }
 
-            firstCardChosen = null;
-            secondCardChosen = null;
+            return null;
         }
 
         // shuffles cards using Fisher-Yates algorithm

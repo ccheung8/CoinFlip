@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoinFlip.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -91,7 +92,9 @@ namespace CoinFlip
                     // draws right aligned string for p2 result
                     int rightAlignedCoord = StringAlignment.Right(_font, "P2: " + _miniGame.p2Result);
                     _spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
+                }
 
+                if (_miniGame.Result != null) {
                     // draws center aligned string for result
                     int xCenterCoord = StringAlignment.HorzCenter(_font, _miniGame.Result);
                     int yCenterCoord = StringAlignment.VertCenter(_font, _miniGame.Result);
