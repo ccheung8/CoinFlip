@@ -6,7 +6,7 @@ namespace CoinFlip {
         string p2Result { get; set; }
         string Result { get; set; }
         void Update();
-        void Draw(SpriteBatch spriteBatch, SpriteFont font);
+        void Draw();
         void Reset();
     }
 }

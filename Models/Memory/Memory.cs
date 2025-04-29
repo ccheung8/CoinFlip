@@ -71,15 +71,15 @@ namespace CoinFlip.Models.Memory {
             lastMouseState = Mouse.GetState();
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font) {
+        public void Draw() {
             string message = "Memory";
-            int center = StringAlignment.HorzCenter(font, message);
-            int bottom = StringAlignment.Bottom(font, message);
+            int center = StringAlignment.HorzCenter(Game1._font, message);
+            int bottom = StringAlignment.Bottom(Game1._font, message);
 
-            spriteBatch.DrawString(font, message, new Vector2(center, bottom - 8), Color.Black);
+            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
 
             foreach (Card card in Cards) {
-                card.Draw(spriteBatch);
+                card.Draw();
             }
         }
 

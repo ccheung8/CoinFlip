@@ -36,8 +36,8 @@ namespace CoinFlip.Models.Memory {
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(_activeTexture, Position, null, Color.White, 0, Vector2.Zero, _scale, SpriteEffects.None, 0);
+        public void Draw() {
+            Game1._spriteBatch.Draw(_activeTexture, Position, null, Color.White, 0, Vector2.Zero, _scale, SpriteEffects.None, 0);
         }
 
         public void Reset() {

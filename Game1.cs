@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using CoinFlip.States;
 using CoinFlip.Models.Memory;
+using CoinFlip.Models.TicTacToe;
 
 namespace CoinFlip
 {
@@ -12,9 +13,9 @@ namespace CoinFlip
     {
         public static GraphicsDeviceManager _graphics;
         public static KeyboardState prevKbd;
+        public static SpriteBatch _spriteBatch;
+        public static SpriteFont _font;
 
-        private SpriteBatch _spriteBatch;
-        private SpriteFont _font;
         private static Random _random;
 
         private List<IMiniGames> _miniGames;
@@ -84,7 +85,7 @@ namespace CoinFlip
 
             // only draws after minigame has been chosen
             if (_miniGame != null) {
-                _miniGame.Draw(_spriteBatch, _font);
+                _miniGame.Draw();
                 
                 // only draws after player 1 and player 2 has gone
                 if (_miniGame.p1Result != null && _miniGame.p2Result != null) {
