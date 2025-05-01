@@ -2,16 +2,17 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using CoinFlip.States;
-using CoinFlip.States.TicTacToeStates;
+using CoinFlip.Statics;
+using CoinFlip.States.GameStates.TicTacToeStates;
+using CoinFlip.States.GameStates;
 
 namespace CoinFlip.Models.TicTacToe {
     internal class TicTacToe : IMiniGames {
         public const int BOARD_DIM = 3;
         private const int LINE_THICKNESS = 20;      // determines thickness of lines for board
 
-        public string p1Result { get; set; }
-        public string p2Result { get; set; }
+        public string P1Result { get; set; }
+        public string P2Result { get; set; }
         public string Result { get; set; }
 
         public TicTacToePiece[,] Board;
@@ -26,11 +27,10 @@ namespace CoinFlip.Models.TicTacToe {
         public readonly Texture2D O;
         public Texture2D _activeTurn;
 
-        private MouseState lastMouseState;
-        private GameState<TicTacToe> gameState;
+        private GameState<TicTacToe> _gameState;
 
         public TicTacToe(ContentManager content) {
-            gameState = new XPlayerState();
+            _gameState = new XPlayerState();
             Board = new TicTacToePiece[3, 3];
 
             rectangle = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
@@ -62,20 +62,18 @@ namespace CoinFlip.Models.TicTacToe {
             }
         }
 
-        public void ChangeState(GameState<TicTacToe> state) {
-            gameState = state;
+        public void ChangeState(GameState<TicTacToe> gameState) {
+            _gameState = gameState;
         }
 
-        public void Update() {
-            gameState.Update(this);
-
-            lastMouseState = Mouse.GetState();
+        public void Update(GameTime gameTime) {
+            _gameState.Update(gameTime, this);
         }
 
-        public void Draw() {
+        public void Draw(GameTime gameTime) {
             string message = "Tic Tac Toe";
-            int center = StringAlignment.HorzCenter(Game1._font, message);
-            int bottom = StringAlignment.Bottom(Game1._font, message);
+            int center = StringAlignment.HorzCenter(message);
+            int bottom = StringAlignment.Bottom(message);
 
             Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
 
@@ -89,7 +87,7 @@ namespace CoinFlip.Models.TicTacToe {
         }
 
         public TicTacToePiece GetClickedPiece() {
-            if (Mouse.GetState().LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed) {
+            if (InputManager.OnMouseRelease) {
                 foreach (TicTacToePiece ticTacToePiece in Board) {
                     // if mouse is in rectangle and activepiece isn't assigned
                     if (ticTacToePiece.boundingRectangle.Contains(Mouse.GetState().X, Mouse.GetState().Y) 
@@ -131,10 +129,10 @@ namespace CoinFlip.Models.TicTacToe {
         }
 
         public void Reset() {
-            p1Result = null;
-            p2Result = null;
+            P1Result = null;
+            P2Result = null;
             Result = null;
-            gameState = new XPlayerState();
+            _gameState = new XPlayerState();
             foreach(TicTacToePiece ticTacToePiece in Board) {
                 ticTacToePiece.Reset();
             }

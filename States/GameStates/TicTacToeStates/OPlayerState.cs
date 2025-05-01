@@ -1,8 +1,9 @@
 ﻿using CoinFlip.Models.TicTacToe;
+using Microsoft.Xna.Framework;
 
-namespace CoinFlip.States.TicTacToeStates {
+namespace CoinFlip.States.GameStates.TicTacToeStates {
     internal class OPlayerState : GameState<TicTacToe> {
-        public override void Update(TicTacToe ticTacToe) {
+        public override void Update(GameTime gameTime, TicTacToe ticTacToe) {
             ticTacToe._activeTurn = ticTacToe.O;
             TicTacToePiece ticTacToePiece = ticTacToe.GetClickedPiece();
 

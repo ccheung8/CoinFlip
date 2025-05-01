@@ -4,19 +4,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using CoinFlip.States;
-using CoinFlip.Models.Memory;
+using CoinFlip.Statics;
+using CoinFlip.Models.Concentration;
+using CoinFlip.Models.DiceRoll;
 using CoinFlip.Models.TicTacToe;
+using CoinFlip.Models.RockPaperScissors;
 
 namespace CoinFlip
 {
     public class Game1 : Game
     {
         public static GraphicsDeviceManager _graphics;
-        public static KeyboardState prevKbd;
         public static SpriteBatch _spriteBatch;
         public static SpriteFont _font;
-
-        private static Random _random;
+        public static Random _random;
 
         private List<IMiniGames> _miniGames;
         private IMiniGames _miniGame;
@@ -38,8 +39,8 @@ namespace CoinFlip
             _miniGames = new List<IMiniGames>() {
                 //new RockPaperScissors(this.Content),
                 //new DiceRoll(this.Content),
-                new TicTacToe(this.Content),
-                //new Memory(this.Content)
+                //new TicTacToe(this.Content),
+                //new Concentration(this.Content)
             };
 
             IsMouseVisible = true;
@@ -59,8 +60,10 @@ namespace CoinFlip
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputManager.Update();  // Updates InputManager
+
             // updates when pressing Right arrow button
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && prevKbd.IsKeyUp(Keys.Right)) {
+            if (InputManager.OnKeyPress(Keys.Right)) {
                 // resets minigame before switching
                 if (_miniGame != null) _miniGame.Reset();
 
@@ -69,10 +72,8 @@ namespace CoinFlip
 
             // calls minigame's update function if selected and result isn't determined
             if (_miniGame != null && _miniGame.Result == null) {
-                _miniGame.Update();
+                _miniGame.Update(gameTime);
             }
-
-            prevKbd = Keyboard.GetState();
 
             base.Update(gameTime);
         }
@@ -85,21 +86,21 @@ namespace CoinFlip
 
             // only draws after minigame has been chosen
             if (_miniGame != null) {
-                _miniGame.Draw();
+                _miniGame.Draw(gameTime);
                 
                 // only draws after player 1 and player 2 has gone
-                if (_miniGame.p1Result != null && _miniGame.p2Result != null) {
-                    _spriteBatch.DrawString(_font, "P1: " + _miniGame.p1Result, new Vector2(8), Color.Black);
+                if (_miniGame.P1Result != null && _miniGame.P2Result != null) {
+                    _spriteBatch.DrawString(_font, "P1: " + _miniGame.P1Result, new Vector2(8), Color.Black);
 
                     // draws right aligned string for p2 result
-                    int rightAlignedCoord = StringAlignment.Right(_font, "P2: " + _miniGame.p2Result);
-                    _spriteBatch.DrawString(_font, "P2: " + _miniGame.p2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
+                    int rightAlignedCoord = StringAlignment.Right("P2: " + _miniGame.P2Result);
+                    _spriteBatch.DrawString(_font, "P2: " + _miniGame.P2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
                 }
 
                 if (_miniGame.Result != null) {
                     // draws center aligned string for result
-                    int xCenterCoord = StringAlignment.HorzCenter(_font, _miniGame.Result);
-                    int yCenterCoord = StringAlignment.VertCenter(_font, _miniGame.Result);
+                    int xCenterCoord = StringAlignment.HorzCenter(_miniGame.Result);
+                    int yCenterCoord = StringAlignment.VertCenter(_miniGame.Result);
                     _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
                 }
             }

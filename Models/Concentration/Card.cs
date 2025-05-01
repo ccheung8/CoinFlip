@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CoinFlip.Models.Memory {
+namespace CoinFlip.Models.Concentration {
     internal class Card {
         private readonly Texture2D _back;
         private readonly Texture2D _front;
