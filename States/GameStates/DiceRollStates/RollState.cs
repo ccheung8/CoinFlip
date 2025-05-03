@@ -1,7 +1,7 @@
-﻿using CoinFlip.Statics;
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using CoinFlip.Statics;
 using CoinFlip.Models.DiceRoll;
 
 namespace CoinFlip.States.GameStates.DiceRollStates {

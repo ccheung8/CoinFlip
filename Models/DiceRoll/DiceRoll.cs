@@ -1,10 +1,10 @@
 ﻿using System;
-using CoinFlip.States.GameStates;
-using CoinFlip.States.GameStates.DiceRollStates;
-using CoinFlip.Statics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using CoinFlip.States.GameStates;
+using CoinFlip.States.GameStates.DiceRollStates;
+using CoinFlip.Statics;
 
 namespace CoinFlip.Models.DiceRoll {
     internal class DiceRoll : IMiniGames {

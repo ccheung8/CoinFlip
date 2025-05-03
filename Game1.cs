@@ -9,6 +9,7 @@ using CoinFlip.Models.Concentration;
 using CoinFlip.Models.DiceRoll;
 using CoinFlip.Models.TicTacToe;
 using CoinFlip.Models.RockPaperScissors;
+using CoinFlip.Models.Memory;
 
 namespace CoinFlip
 {
@@ -40,7 +41,8 @@ namespace CoinFlip
                 //new RockPaperScissors(this.Content),
                 //new DiceRoll(this.Content),
                 //new TicTacToe(this.Content),
-                //new Concentration(this.Content)
+                //new Concentration(this.Content),
+                new Memory(this.Content)
             };
 
             IsMouseVisible = true;
