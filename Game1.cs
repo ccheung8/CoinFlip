@@ -42,7 +42,7 @@ namespace CoinFlip
                 //new DiceRoll(this.Content),
                 //new TicTacToe(this.Content),
                 //new Concentration(this.Content),
-                new Memory(this.Content)
+                new Memory(this.Content),
             };
 
             IsMouseVisible = true;
@@ -65,7 +65,7 @@ namespace CoinFlip
             InputManager.Update();  // Updates InputManager
 
             // updates when pressing Right arrow button
-            if (InputManager.OnKeyPress(Keys.Right)) {
+            if (InputManager.OnKeyRight) {
                 // resets minigame before switching
                 if (_miniGame != null) _miniGame.Reset();
 

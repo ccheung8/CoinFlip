@@ -5,10 +5,9 @@ namespace CoinFlip.Models.Memory {
     internal class MemoryTexture {
         public int Id { get; }
         public Vector2 Position { get; set; }
-        public bool IsLit { get; set; }
 
         private readonly int _size;
-        private readonly Texture2D _texture;
+        public readonly Texture2D _texture;
 
         public Rectangle sourceRectangle => new Rectangle((int)Position.X, (int)Position.Y, _size, _size);
 
@@ -17,15 +16,10 @@ namespace CoinFlip.Models.Memory {
             _texture = texture;
             Position = position;
             _size = size;
+            _texture.SetData([Color.Black]);
         }
 
         public void Draw() {
-            if (IsLit) {
-                _texture.SetData([Color.Purple]);    // sets square color
-            } else {
-                _texture.SetData([Color.Black]);
-            }
-
             Game1._spriteBatch.Draw(_texture, sourceRectangle, Color.White);
         }
     }
