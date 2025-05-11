@@ -85,5 +85,18 @@ namespace CoinFlip.Models.Memory {
             GameOrderQueue.Clear();
             _gameState = new PlaybackState();
         }
+
+        public MemoryTexture GetClickedMemoryTexture() {
+            // gets texture when mouse pressed and released
+            if (InputManager.OnMouseRelease) {
+                // cycles through and finds which texture is clicked, if any
+                foreach (MemoryTexture texture in MemoryTextures) {
+                    if (texture.sourceRectangle.Contains(InputManager.MouseX, InputManager.MouseY))
+                        return texture;
+                }
+            }
+
+            return null;
+        }
     }
 }

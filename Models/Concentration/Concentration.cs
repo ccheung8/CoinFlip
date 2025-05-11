@@ -100,7 +100,7 @@ namespace CoinFlip.Models.Concentration {
                 // cycles through and finds which card is clicked, if any
                 foreach (Card card in Cards) {
                     if (card.Solved) continue;
-                    if (card.cardRectangle.Contains(Mouse.GetState().X, Mouse.GetState().Y)) {
+                    if (card.cardRectangle.Contains(InputManager.MouseX, InputManager.MouseY)) {
                         return card;
                     }
                 }

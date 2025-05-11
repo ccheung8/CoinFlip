@@ -1,4 +1,7 @@
-﻿using CoinFlip.Models.Memory;
+﻿using System;
+using System.Diagnostics;
+using CoinFlip.Models.Memory;
+using CoinFlip.Statics;
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.MemoryStates {
@@ -10,7 +13,30 @@ namespace CoinFlip.States.GameStates.MemoryStates {
 
             texture._texture.SetData([time <= Memory.LIGHT_DURATION ? Color.Purple : Color.Black]);
 
-            if (time > Memory.LIGHT_DURATION) memory.ChangeState(new PlaybackState());
+            // fast forwards if lmb clicked while answering and queue is not empty
+            MemoryTexture clickedTexture = memory.GetClickedMemoryTexture();
+            if (clickedTexture != null && Memory.GameOrderQueue.Count > 0) {
+                texture._texture.SetData([Color.Black]);
+                memory.ChangeState(new CheckAnswerState(clickedTexture, InputManager.MouseX, InputManager.MouseY));
+                return;
+            }
+
+            // switches to playbackstate or answerstate based on gameorder's count
+            if (time > Memory.LIGHT_DURATION) {
+                if (Memory.GameOrder.Count == memory.Round) {
+                    memory.ChangeState(new AnswerState());
+                    return;
+                }
+
+                // transitions to next round if queue is empty
+                if (Memory.GameOrderQueue.Count <= 0) {
+                    memory.ChangeState(new RoundTransitionState());
+                    return;
+                }
+
+                Memory.GameOrderQueue.Dequeue();
+                memory.ChangeState(new PlaybackState());
+            }
         }
     }
 }

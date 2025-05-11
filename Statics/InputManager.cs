@@ -5,6 +5,8 @@ namespace CoinFlip.Statics {
         private static MouseState _prevMouseState;
         private static KeyboardState _prevKeyboardState;
 
+        public static bool AllowInput { get; set; } = true;
+
         public static bool OnMouseClick { get; private set; }
         public static bool OnMouseRelease { get; private set; }
         public static int MouseX { get; private set; }
@@ -18,11 +20,11 @@ namespace CoinFlip.Statics {
 
         public static void Update() {
             /*----------- MOUSE UPDATES -----------*/
-            OnMouseClick = (Mouse.GetState().LeftButton == ButtonState.Pressed &&
-                _prevMouseState.LeftButton == ButtonState.Released);
+            OnMouseClick = AllowInput && Mouse.GetState().LeftButton == ButtonState.Pressed &&
+                _prevMouseState.LeftButton == ButtonState.Released;
 
-            OnMouseRelease = (Mouse.GetState().LeftButton == ButtonState.Released &&
-                _prevMouseState.LeftButton == ButtonState.Pressed);
+            OnMouseRelease = AllowInput && Mouse.GetState().LeftButton == ButtonState.Released &&
+                _prevMouseState.LeftButton == ButtonState.Pressed;
 
             MouseX = Mouse.GetState().X;
             MouseY = Mouse.GetState().Y;
