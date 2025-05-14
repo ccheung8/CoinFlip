@@ -22,13 +22,13 @@ namespace CoinFlip.States.GameStates.RockPaperScissorsStates {
 
             // process inputs
             // 1: Rock, 2: Paper, 3: Scissors
-            if (InputManager.OnKeyOne) {
+            if (MinigameInputManager.OnKeyOne) {
                 option = rockPaperScissors.Choices[0];
             }
-            else if (InputManager.OnKeyTwo) {
+            else if (MinigameInputManager.OnKeyTwo) {
                 option = rockPaperScissors.Choices[1];
             }
-            else if (InputManager.OnKeyThree) {
+            else if (MinigameInputManager.OnKeyThree) {
                 option = rockPaperScissors.Choices[2];
             }
 

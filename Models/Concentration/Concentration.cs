@@ -96,11 +96,11 @@ namespace CoinFlip.Models.Concentration {
 
         public Card GetClickedCard() {
             // flips card when lmb clicked and released
-            if (InputManager.OnMouseRelease) {
+            if (MinigameInputManager.OnMouseRelease) {
                 // cycles through and finds which card is clicked, if any
                 foreach (Card card in Cards) {
                     if (card.Solved) continue;
-                    if (card.cardRectangle.Contains(InputManager.MouseX, InputManager.MouseY)) {
+                    if (card.cardRectangle.Contains(MinigameInputManager.MouseX, MinigameInputManager.MouseY)) {
                         return card;
                     }
                 }

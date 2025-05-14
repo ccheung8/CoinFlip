@@ -1,5 +1,4 @@
 ﻿using CoinFlip.Models.Memory;
-using CoinFlip.Statics;
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.MemoryStates {

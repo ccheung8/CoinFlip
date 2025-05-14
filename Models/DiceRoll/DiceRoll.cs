@@ -12,7 +12,7 @@ namespace CoinFlip.Models.DiceRoll {
         public string P2Result { get; set; }
         public string Result { get; set; }
 
-        GameState<DiceRoll> _gameState;
+        private GameState<DiceRoll> _gameState;
 
         public DiceRoll(ContentManager content) {
             _gameState = new RollState();

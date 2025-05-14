@@ -18,7 +18,7 @@ namespace CoinFlip.Statics {
         // returns y coordinate of Vector2 for center aligned text
         public static int VertCenter(string text) {
             Vector2 textSize = Game1._font.MeasureString(text);
-            return (int)(Game1._graphics.GraphicsDevice.Viewport.Height / 2 - textSize.Y / 2);
+            return (int)((Game1._graphics.GraphicsDevice.Viewport.Height / 2) - (textSize.Y / 2));
         }
 
         // returns y coordinate of Vector2 for bottom aligned text

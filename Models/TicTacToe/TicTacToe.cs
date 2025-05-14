@@ -87,7 +87,7 @@ namespace CoinFlip.Models.TicTacToe {
         }
 
         public TicTacToePiece GetClickedPiece() {
-            if (InputManager.OnMouseRelease) {
+            if (MinigameInputManager.OnMouseRelease) {
                 foreach (TicTacToePiece ticTacToePiece in Board) {
                     // if mouse is in rectangle and activepiece isn't assigned
                     if (ticTacToePiece.boundingRectangle.Contains(Mouse.GetState().X, Mouse.GetState().Y) 

@@ -13,7 +13,7 @@ namespace CoinFlip.Models.RockPaperScissors {
 
         public readonly string[] Choices;
 
-        public GameState<RockPaperScissors> _gameState;
+        private GameState<RockPaperScissors> _gameState;
 
         public RockPaperScissors(ContentManager content) {
             Choices = ["Rock", "Paper", "Scissors"];

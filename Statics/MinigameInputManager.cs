@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
 namespace CoinFlip.Statics {
-    internal static class InputManager {
+    internal static class MinigameInputManager {
         private static MouseState _prevMouseState;
         private static KeyboardState _prevKeyboardState;
 

@@ -10,6 +10,7 @@ using CoinFlip.Models.DiceRoll;
 using CoinFlip.Models.TicTacToe;
 using CoinFlip.Models.RockPaperScissors;
 using CoinFlip.Models.Memory;
+using CoinFlip.Models.MathGame;
 
 namespace CoinFlip
 {
@@ -42,7 +43,8 @@ namespace CoinFlip
                 //new DiceRoll(this.Content),
                 //new TicTacToe(this.Content),
                 //new Concentration(this.Content),
-                new Memory(this.Content),
+                //new Memory(this.Content),
+                new MathGame(this.Content)
             };
 
             IsMouseVisible = true;
@@ -62,10 +64,10 @@ namespace CoinFlip
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            InputManager.Update();  // Updates InputManager
+            MinigameInputManager.Update();  // Updates InputManager
 
             // updates when pressing Right arrow button
-            if (InputManager.OnKeyRight) {
+            if (MinigameInputManager.OnKeyRight) {
                 // resets minigame before switching
                 if (_miniGame != null) _miniGame.Reset();
 

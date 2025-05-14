@@ -15,13 +15,13 @@ namespace CoinFlip.Models.Memory {
         public int Round {  get; set; }
 
         public const int TEXTURE_SPACING = 20; // spacing of the textures
-        public const int LIGHT_DURATION = 1;   // duration of light up in seconds
+        public const float LIGHT_DURATION = 0.75f;   // duration of light up in seconds
 
         public static MemoryTexture[] MemoryTextures;       // stores all texture for random selection
         public static List<MemoryTexture> GameOrder;        // stores list of order of textures
         public static Queue<MemoryTexture> GameOrderQueue;  // helper variable to check answers in answerstate
 
-        public GameState<Memory> _gameState;
+        private GameState<Memory> _gameState;
 
         public Memory(ContentManager content) {
             MemoryTextures = new MemoryTexture[4];
@@ -88,10 +88,10 @@ namespace CoinFlip.Models.Memory {
 
         public MemoryTexture GetClickedMemoryTexture() {
             // gets texture when mouse pressed and released
-            if (InputManager.OnMouseRelease) {
+            if (MinigameInputManager.OnMouseRelease) {
                 // cycles through and finds which texture is clicked, if any
                 foreach (MemoryTexture texture in MemoryTextures) {
-                    if (texture.sourceRectangle.Contains(InputManager.MouseX, InputManager.MouseY))
+                    if (texture.sourceRectangle.Contains(MinigameInputManager.MouseX, MinigameInputManager.MouseY))
                         return texture;
                 }
             }

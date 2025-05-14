@@ -5,11 +5,10 @@ using CoinFlip.Statics;
 namespace CoinFlip.States.GameStates.MemoryStates {
     internal class PlaybackState : GameState<Memory> {
         public PlaybackState() {
-            InputManager.AllowInput = false;    // turns off input during playback
+            MinigameInputManager.AllowInput = false;    // turns off input during playback
         }
 
         public override void Update(GameTime gameTime, Memory memory) {
-
             if (Memory.GameOrderQueue.Count <= 0) {
                 memory.ChangeState(new AddOneRoundState());
                 return;

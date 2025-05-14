@@ -9,7 +9,7 @@ namespace CoinFlip.States.GameStates.MemoryStates {
         private string message;
 
         public RoundTransitionState() {
-            InputManager.AllowInput = false;
+            MinigameInputManager.AllowInput = false;
             message = "";
         }
 

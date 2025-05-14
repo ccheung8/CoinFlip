@@ -17,7 +17,7 @@ namespace CoinFlip.States.GameStates.MemoryStates {
             MemoryTexture clickedTexture = memory.GetClickedMemoryTexture();
             if (clickedTexture != null && Memory.GameOrderQueue.Count > 0) {
                 texture._texture.SetData([Color.Black]);
-                memory.ChangeState(new CheckAnswerState(clickedTexture, InputManager.MouseX, InputManager.MouseY));
+                memory.ChangeState(new CheckAnswerState(clickedTexture, MinigameInputManager.MouseX, MinigameInputManager.MouseY));
                 return;
             }
 
