@@ -46,19 +46,24 @@ namespace CoinFlip.Models.MathGame {
         }
 
         public void Reset() {
+            P1Result = null;
+            P2Result = null;
+            Result = null;
+
             MathProblems.Clear();
             // generates 5 more problems
             for (int i = 0; i < 5; i++) {
                 MathProblems.Enqueue(new(Game1._random.Next(10), Game1._random.Next(10), Game1._random.Next(2)));
             }
+
             _gameState = new GetProblemState();
-            CurrentProblem = null;
         }
 
         public MathChoice GetClickedChoice() {
             if (MinigameInputManager.OnMouseRelease) {
                 foreach (MathChoice choice in CurrentProblem.Choices) {
-                    if (choice.SourceRectangle.Contains(MinigameInputManager.MouseX, MinigameInputManager.MouseY)) 
+                    if (choice.HasBeenChosen) continue;
+                    if (choice.SourceRectangle.Contains(MinigameInputManager.MouseX, MinigameInputManager.MouseY))
                         return choice;
                 }
             }

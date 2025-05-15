@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.MathGameStates {
-    internal class GetProblemState : GameState<MathGame> {
+    internal class FinishState : GameState<MathGame> {
         public override void Update(GameTime gameTime, MathGame mathGame) {
-            mathGame.CurrentProblem = mathGame.MathProblems.Dequeue();
-            mathGame.ChangeState(new AnswerState());
+            mathGame.P1Result = "";
+            mathGame.P2Result = "";
+            mathGame.Result = "Finish!";
         }
     }
 }

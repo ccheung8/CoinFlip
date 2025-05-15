@@ -10,7 +10,6 @@ using CoinFlip.States.GameStates;
 
 namespace CoinFlip.Models.Concentration {
     internal class Concentration : IMiniGames {
-        private static Random random;
         public string P1Result {  get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
@@ -28,7 +27,6 @@ namespace CoinFlip.Models.Concentration {
         public Card secondCardChosen;  // stores second card player flipped
 
         public Concentration(ContentManager content) {
-            random = new Random();
             _gameState = new FlipFirstCardState();
 
             Texture2D back = content.Load<Texture2D>("Concentration/Card_Back");
@@ -112,7 +110,7 @@ namespace CoinFlip.Models.Concentration {
         // shuffles cards using Fisher-Yates algorithm
         public void Shuffle() {
             for (int i = Cards.Count - 1; i > 0; i--) {
-                int j = random.Next(i + 1);
+                int j = Game1._random.Next(i + 1);
                 // swaps positions of cards
                 (Cards[j].Position, Cards[i].Position) = (Cards[i].Position, Cards[j].Position);
             }

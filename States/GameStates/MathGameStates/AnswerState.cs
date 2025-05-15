@@ -13,6 +13,7 @@ namespace CoinFlip.States.GameStates.MathGameStates {
 
             if (choice != null) {
                 mathGame.ChosenAnswer = choice;
+                choice.HasBeenChosen = true;
                 mathGame.ChangeState(new CheckAnswerState());
             }
         }
