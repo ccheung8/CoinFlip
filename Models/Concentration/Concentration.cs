@@ -10,23 +10,24 @@ using CoinFlip.States.GameStates;
 
 namespace CoinFlip.Models.Concentration {
     internal class Concentration : IMiniGames {
+        public string Message { get; }
         public string P1Result {  get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
-        private readonly int scale;
 
         private const int CARDS_ROW = 2;    // number of rows in game
         private const int CARDS_COL = 5;    // number of cols in game
         private const int CARD_SPACING = 10;
 
+        private readonly int scale;
         private GameState<Concentration> _gameState;
 
         public List<Card> Cards { get; } = new List<Card>();
-
         public Card firstCardChosen;   // stores first card player flipped
         public Card secondCardChosen;  // stores second card player flipped
 
         public Concentration(ContentManager content) {
+            Message = "Concentration";
             _gameState = new FlipFirstCardState();
 
             Texture2D back = content.Load<Texture2D>("Concentration/Card_Back");
@@ -68,12 +69,6 @@ namespace CoinFlip.Models.Concentration {
         }
 
         public void Draw(GameTime gameTime) {
-            string message = "Concentration";
-            int center = StringAlignment.HorzCenter(message);
-            int bottom = StringAlignment.Bottom(message);
-
-            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
-
             foreach (Card card in Cards) {
                 card.Draw();
             }

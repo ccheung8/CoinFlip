@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace CoinFlip.Models.MathGame {
     internal class MathGame : IMiniGames {
+        public string Message { get; }
         public string P1Result { get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
@@ -18,6 +19,7 @@ namespace CoinFlip.Models.MathGame {
         private GameState<MathGame> _gameState;
 
         public MathGame(ContentManager content) {
+            Message = "Math";
             _gameState = new GetProblemState();
 
             // initializes 5 problems
@@ -36,12 +38,6 @@ namespace CoinFlip.Models.MathGame {
         }
 
         public void Draw(GameTime gameTime) {
-            string message = "Math";
-            int center = StringAlignment.HorzCenter(message);
-            int bottom = StringAlignment.Bottom(message);
-
-            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
-
             CurrentProblem.Draw(gameTime);
         }
 

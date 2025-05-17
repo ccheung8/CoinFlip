@@ -11,12 +11,14 @@ using CoinFlip.Models.TicTacToe;
 using CoinFlip.Models.RockPaperScissors;
 using CoinFlip.Models.Memory;
 using CoinFlip.Models.MathGame;
+using CoinFlip.Models.TypingTest;
 
 namespace CoinFlip
 {
     public class Game1 : Game
     {
         public static GraphicsDeviceManager _graphics;
+        public static GameWindow _gameWindow;
         public static SpriteBatch _spriteBatch;
         public static SpriteFont _font;
         public static Random _random;
@@ -33,20 +35,12 @@ namespace CoinFlip
             IsFixedTimeStep = false;
             _random = new Random();
 
+            _gameWindow = this.Window;
             this.Window.Title = "Coin Flip";  // sets window title
         }
 
         protected override void Initialize()
         {
-            _miniGames = new List<IMiniGames>() {
-                //new RockPaperScissors(this.Content),
-                //new DiceRoll(this.Content),
-                //new TicTacToe(this.Content),
-                //new Concentration(this.Content),
-                //new Memory(this.Content),
-                new MathGame(this.Content)
-            };
-
             IsMouseVisible = true;
 
             base.Initialize();
@@ -57,6 +51,16 @@ namespace CoinFlip
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _font = Content.Load<SpriteFont>("Fonts/Score");
+
+            _miniGames = new List<IMiniGames>() {
+                //new RockPaperScissors(this.Content),
+                //new DiceRoll(this.Content),
+                //new TicTacToe(this.Content),
+                //new Concentration(this.Content),
+                //new Memory(this.Content),
+                //new MathGame(this.Content)
+                new TypingTest(this.Content)
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,10 +68,8 @@ namespace CoinFlip
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            MinigameInputManager.Update();  // Updates InputManager
-
             // updates when pressing Right arrow button
-            if (MinigameInputManager.OnKeyRight) {
+            if (MinigameInputManager.OnKeyPress(Keys.Right)) {
                 // resets minigame before switching
                 if (_miniGame != null) _miniGame.Reset();
 
@@ -79,6 +81,7 @@ namespace CoinFlip
                 _miniGame.Update(gameTime);
             }
 
+            MinigameInputManager.Update();  // Updates InputManager
             base.Update(gameTime);
         }
 
@@ -92,21 +95,27 @@ namespace CoinFlip
             if (_miniGame != null) {
                 _miniGame.Draw(gameTime);
                 
-                // only draws after player 1 and player 2 has gone
+                // only draws after player 1 and player 2 has results
                 if (_miniGame.P1Result != null && _miniGame.P2Result != null) {
                     _spriteBatch.DrawString(_font, "P1: " + _miniGame.P1Result, new Vector2(8), Color.Black);
 
                     // draws right aligned string for p2 result
-                    int rightAlignedCoord = StringAlignment.Right("P2: " + _miniGame.P2Result);
-                    _spriteBatch.DrawString(_font, "P2: " + _miniGame.P2Result, new Vector2(rightAlignedCoord - 8, 8), Color.Black);
+                    _spriteBatch.DrawString(_font, "P2: " + _miniGame.P2Result,
+                        new Vector2(StringAlignment.Right("P2: " + _miniGame.P2Result) - 8, 8),
+                        Color.Black);
                 }
 
                 if (_miniGame.Result != null) {
                     // draws center aligned string for result
-                    int xCenterCoord = StringAlignment.HorzCenter(_miniGame.Result);
-                    int yCenterCoord = StringAlignment.VertCenter(_miniGame.Result);
-                    _spriteBatch.DrawString(_font, _miniGame.Result, new Vector2(xCenterCoord, yCenterCoord), Color.Black);
+                    _spriteBatch.DrawString(_font, _miniGame.Result, 
+                        new Vector2(StringAlignment.HorzCenter(_miniGame.Result), StringAlignment.VertCenter(_miniGame.Result)),
+                        Color.Black);
                 }
+
+                // draws name of minigame on bottom center of screen
+                _spriteBatch.DrawString(_font, _miniGame.Message, 
+                    new Vector2(StringAlignment.HorzCenter(_miniGame.Message), StringAlignment.Bottom(_miniGame.Message) - 8),
+                    Color.Black);
             }
 
             _spriteBatch.End();

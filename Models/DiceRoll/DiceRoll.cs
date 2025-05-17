@@ -8,6 +8,7 @@ using CoinFlip.Statics;
 
 namespace CoinFlip.Models.DiceRoll {
     internal class DiceRoll : IMiniGames {
+        public string Message { get; }
         public string P1Result {  get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
@@ -15,6 +16,7 @@ namespace CoinFlip.Models.DiceRoll {
         private GameState<DiceRoll> _gameState;
 
         public DiceRoll(ContentManager content) {
+            Message = "Press Space to Roll the Die";
             _gameState = new RollState();
         }
 
@@ -27,11 +29,7 @@ namespace CoinFlip.Models.DiceRoll {
         }
 
         public void Draw(GameTime gameTime) {
-            string message = "Press Space to Roll the Die";
-            int center = StringAlignment.HorzCenter(message);
-            int bottom = StringAlignment.Bottom(message);
-
-            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
+            
         }
 
         public void Reset() {

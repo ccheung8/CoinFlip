@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace CoinFlip.Models.Memory {
     internal class Memory : IMiniGames {
+        public string Message { get; }
         public string P1Result {  get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
@@ -24,6 +25,7 @@ namespace CoinFlip.Models.Memory {
         private GameState<Memory> _gameState;
 
         public Memory(ContentManager content) {
+            Message = "Memory";
             MemoryTextures = new MemoryTexture[4];
             GameOrder = new List<MemoryTexture>();
             GameOrderQueue = new Queue<MemoryTexture>();
@@ -61,12 +63,6 @@ namespace CoinFlip.Models.Memory {
         }
 
         public void Draw(GameTime gameTime) {
-            string message = "Memory";
-            int center = StringAlignment.HorzCenter(message);
-            int bottom = StringAlignment.Bottom(message);
-
-            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
-
             _gameState.Draw(gameTime);
 
             // draws textures

@@ -6,7 +6,7 @@ using CoinFlip.Models.RockPaperScissors;
 namespace CoinFlip.States.GameStates.RockPaperScissorsStates {
     internal class CountDownState : GameState<RockPaperScissors> {
         private float currentTime = 0f;
-        private string option;
+        private string option = "Rock"; // defaults to rock
         private string centerText;
 
         public override void Update(GameTime gameTime, RockPaperScissors rockPaperScissors) {
@@ -22,13 +22,13 @@ namespace CoinFlip.States.GameStates.RockPaperScissorsStates {
 
             // process inputs
             // 1: Rock, 2: Paper, 3: Scissors
-            if (MinigameInputManager.OnKeyOne) {
+            if (MinigameInputManager.OnKeyPress(Keys.D1)) {
                 option = rockPaperScissors.Choices[0];
             }
-            else if (MinigameInputManager.OnKeyTwo) {
+            else if (MinigameInputManager.OnKeyPress(Keys.D2)) {
                 option = rockPaperScissors.Choices[1];
             }
-            else if (MinigameInputManager.OnKeyThree) {
+            else if (MinigameInputManager.OnKeyPress(Keys.D3)) {
                 option = rockPaperScissors.Choices[2];
             }
 

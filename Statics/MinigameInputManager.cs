@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CoinFlip.Statics {
     internal static class MinigameInputManager {
@@ -12,12 +13,6 @@ namespace CoinFlip.Statics {
         public static int MouseX { get; private set; }
         public static int MouseY { get; private set; }
 
-        public static bool OnKeyRight {  get; private set; }
-        public static bool OnKeySpace { get; private set; }
-        public static bool OnKeyOne { get; private set; }
-        public static bool OnKeyTwo { get; private set; }
-        public static bool OnKeyThree { get; private set; }
-
         public static void Update() {
             /*----------- MOUSE UPDATES -----------*/
             OnMouseClick = AllowInput && Mouse.GetState().LeftButton == ButtonState.Pressed &&
@@ -29,19 +24,13 @@ namespace CoinFlip.Statics {
             MouseX = Mouse.GetState().X;
             MouseY = Mouse.GetState().Y;
 
-            /*----------- KEYBOARD UPDATES -----------*/
-            OnKeyRight = Keyboard.GetState().IsKeyDown(Keys.Right) && _prevKeyboardState.IsKeyUp(Keys.Right);
-
-            OnKeySpace = Keyboard.GetState().IsKeyDown(Keys.Space) && _prevKeyboardState.IsKeyUp(Keys.Space);
-
-            OnKeyOne = Keyboard.GetState().IsKeyDown(Keys.D1) && _prevKeyboardState.IsKeyUp(Keys.D1);
-
-            OnKeyTwo = Keyboard.GetState().IsKeyDown(Keys.D2) && _prevKeyboardState.IsKeyUp(Keys.D2);
-
-            OnKeyThree = Keyboard.GetState().IsKeyDown(Keys.D3) && _prevKeyboardState.IsKeyUp(Keys.D3);
-
             _prevKeyboardState = Keyboard.GetState();
             _prevMouseState = Mouse.GetState();
+        }
+        
+        // want to implement this later for a more elegant input checker
+        public static bool OnKeyPress(Keys key) {
+            return Keyboard.GetState().IsKeyDown(key) && _prevKeyboardState.IsKeyUp(key);
         }
     }
 }

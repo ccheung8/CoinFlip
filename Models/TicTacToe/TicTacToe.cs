@@ -8,12 +8,13 @@ using CoinFlip.States.GameStates;
 
 namespace CoinFlip.Models.TicTacToe {
     internal class TicTacToe : IMiniGames {
-        public const int BOARD_DIM = 3;
-        private const int LINE_THICKNESS = 20;      // determines thickness of lines for board
-
+        public string Message { get; }
         public string P1Result { get; set; }
         public string P2Result { get; set; }
         public string Result { get; set; }
+
+        public const int BOARD_DIM = 3;
+        private const int LINE_THICKNESS = 20;      // determines thickness of lines for board
 
         public TicTacToePiece[,] Board;
 
@@ -30,6 +31,7 @@ namespace CoinFlip.Models.TicTacToe {
         private GameState<TicTacToe> _gameState;
 
         public TicTacToe(ContentManager content) {
+            Message = "Tic Tac Toe";
             _gameState = new XPlayerState();
             Board = new TicTacToePiece[3, 3];
 
@@ -71,12 +73,6 @@ namespace CoinFlip.Models.TicTacToe {
         }
 
         public void Draw(GameTime gameTime) {
-            string message = "Tic Tac Toe";
-            int center = StringAlignment.HorzCenter(message);
-            int bottom = StringAlignment.Bottom(message);
-
-            Game1._spriteBatch.DrawString(Game1._font, message, new Vector2(center, bottom - 8), Color.Black);
-
             foreach (TicTacToePiece ticTacToePiece in Board) {
                 if (ticTacToePiece._activePiece != null) {
                     ticTacToePiece.Draw();
