@@ -9,17 +9,15 @@ namespace CoinFlip.Models.TypingTest {
     internal class TypingPrompt {
         public string Prompt { get; }
         public StringBuilder TypedText { get; set; }
-        public string TypedString { get; private set; }
+        public string TypedString { get; set; }
+        public float MaxSize { get; } = Game1._font.MeasureString("W").X * 70;
 
         private Vector2 drawLocation;
-        private readonly float maxSize = Game1._font.MeasureString("W").X * 70;
 
         public TypingPrompt(string prompt) {
-            Game1._gameWindow.TextInput += TextInput;
-
             // calls wrap text on prompt with a maxwidth of 70 characters or half of screen size (uses "W" as reference for char size)
-            maxSize = maxSize > Game1._graphics.GraphicsDevice.Viewport.Width / 2 ? 500 : maxSize;
-            Prompt = WrapText(Game1._font, prompt, maxSize > Game1._graphics.GraphicsDevice.Viewport.Width ? 500 : maxSize);
+            MaxSize = MaxSize > Game1._graphics.GraphicsDevice.Viewport.Width / 2 ? 500 : MaxSize;
+            Prompt = WrapText(Game1._font, prompt, MaxSize > Game1._graphics.GraphicsDevice.Viewport.Width ? 500 : MaxSize);
             TypedText = new StringBuilder();
             TypedString = "";
 
@@ -49,27 +47,12 @@ namespace CoinFlip.Models.TypingTest {
                     lineWidth += size.X + spaceWidth;
                 }
                 else {
-                    Debug.WriteLine("new line");
                     sb.Append("\n" + word + " ");
                     lineWidth = size.X + spaceWidth;
                 }
             }
 
             return sb.ToString();
-        }
-
-        private void TextInput(object sender, TextInputEventArgs e) {
-            // handles backspace
-            if (e.Key == Keys.Back) {
-                if (TypedText.Length > 0) {
-                    TypedText.Remove(TypedText.Length - 1, 1);
-                }
-            }
-            else {
-                TypedText.Append(e.Character);
-            }
-
-            TypedString = WrapText(Game1._font, TypedText.ToString(), maxSize);
         }
     }
 }

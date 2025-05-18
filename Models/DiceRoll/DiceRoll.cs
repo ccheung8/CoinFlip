@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using CoinFlip.States.GameStates;
 using CoinFlip.States.GameStates.DiceRollStates;
-using CoinFlip.Statics;
 
 namespace CoinFlip.Models.DiceRoll {
     internal class DiceRoll : IMiniGames {
@@ -17,7 +14,7 @@ namespace CoinFlip.Models.DiceRoll {
 
         public DiceRoll(ContentManager content) {
             Message = "Press Space to Roll the Die";
-            _gameState = new RollState();
+            _gameState = new RollState(this);
         }
 
         public void ChangeState(GameState<DiceRoll> gameState) {
@@ -25,7 +22,7 @@ namespace CoinFlip.Models.DiceRoll {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -36,7 +33,7 @@ namespace CoinFlip.Models.DiceRoll {
             P1Result = null;
             P2Result = null;
             Result = null;
-            _gameState = new RollState();
+            _gameState = new RollState(this);
         }
     }
 }

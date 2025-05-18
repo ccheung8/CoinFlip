@@ -2,7 +2,7 @@
 
 namespace CoinFlip.States {
     internal interface IStateMachine<T> {
-        void Update(GameTime gameTime, T game);
+        void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
     }
 }

@@ -2,14 +2,16 @@
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.ConcentrationStates {
-    internal class FlipSecondCardState : GameState<Concentration> {
-        public override void Update(GameTime gameTime, Concentration concentration) {
-            Card card = concentration.GetClickedCard();
+    internal class FlipSecondCardState(Concentration concentration) : GameState<Concentration> {
+        private readonly Concentration _concentration = concentration;
 
-            if (card != null && card != concentration.firstCardChosen) {
+        public override void Update(GameTime gameTime) {
+            Card card = _concentration.GetClickedCard();
+
+            if (card != null && card != _concentration.firstCardChosen) {
                 card.Flip();
-                concentration.secondCardChosen = card;
-                concentration.ChangeState(new ResolveTurnState());
+                _concentration.secondCardChosen = card;
+                _concentration.ChangeState(new ResolveTurnState(_concentration));
             }
         }
     }

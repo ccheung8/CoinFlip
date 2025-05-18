@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using CoinFlip.Statics;
 using CoinFlip.States.GameStates;
 using CoinFlip.States.GameStates.TypingTestStates;
-using Microsoft.Xna.Framework.Input;
-using System.Text;
 
 namespace CoinFlip.Models.TypingTest {
     internal class TypingTest : IMiniGames {
@@ -22,14 +18,14 @@ namespace CoinFlip.Models.TypingTest {
         public TypingTest(ContentManager content) {
             Message = "Typing Test";
 
-            _gameState = new TypingState();
+            _gameState = new TypingState(this);
             _prompts = ["The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog."];
 
             Prompt = new TypingPrompt(_prompts[0]);
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {

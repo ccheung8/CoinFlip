@@ -20,7 +20,7 @@ namespace CoinFlip.Models.MathGame {
 
         public MathGame(ContentManager content) {
             Message = "Math";
-            _gameState = new GetProblemState();
+            _gameState = new GetProblemState(this);
 
             // initializes 5 problems
             MathProblems = new();
@@ -34,7 +34,7 @@ namespace CoinFlip.Models.MathGame {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -52,7 +52,7 @@ namespace CoinFlip.Models.MathGame {
                 MathProblems.Enqueue(new(Game1._random.Next(10), Game1._random.Next(10), Game1._random.Next(2)));
             }
 
-            _gameState = new GetProblemState();
+            _gameState = new GetProblemState(this);
         }
 
         public MathChoice GetClickedChoice() {

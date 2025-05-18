@@ -19,7 +19,7 @@ namespace CoinFlip.Models.RockPaperScissors {
         public RockPaperScissors(ContentManager content) {
             Message = "1: Rock, 2: Paper, 3: Scissors";
             Choices = ["Rock", "Paper", "Scissors"];
-            _gameState = new CountDownState();
+            _gameState = new CountDownState(this);
         }
 
         public void ChangeState(GameState<RockPaperScissors> gameState) {
@@ -27,7 +27,7 @@ namespace CoinFlip.Models.RockPaperScissors {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -38,7 +38,7 @@ namespace CoinFlip.Models.RockPaperScissors {
             P1Result = null;
             P2Result = null;
             Result = null;
-            _gameState = new CountDownState();
+            _gameState = new CountDownState(this);
         }
     }
 }

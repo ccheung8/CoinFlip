@@ -32,7 +32,7 @@ namespace CoinFlip.Models.TicTacToe {
 
         public TicTacToe(ContentManager content) {
             Message = "Tic Tac Toe";
-            _gameState = new XPlayerState();
+            _gameState = new XPlayerState(this);
             Board = new TicTacToePiece[3, 3];
 
             rectangle = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
@@ -69,7 +69,7 @@ namespace CoinFlip.Models.TicTacToe {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -128,7 +128,7 @@ namespace CoinFlip.Models.TicTacToe {
             P1Result = null;
             P2Result = null;
             Result = null;
-            _gameState = new XPlayerState();
+            _gameState = new XPlayerState(this);
             foreach(TicTacToePiece ticTacToePiece in Board) {
                 ticTacToePiece.Reset();
             }

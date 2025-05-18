@@ -4,12 +4,13 @@ using CoinFlip.Statics;
 using CoinFlip.Models.RockPaperScissors;
 
 namespace CoinFlip.States.GameStates.RockPaperScissorsStates {
-    internal class CountDownState : GameState<RockPaperScissors> {
+    internal class CountDownState(RockPaperScissors rockPaperScissors) : GameState<RockPaperScissors> {
         private float currentTime = 0f;
         private string option = "Rock"; // defaults to rock
         private string centerText;
+        private readonly RockPaperScissors _rockPaperScissors = rockPaperScissors;
 
-        public override void Update(GameTime gameTime, RockPaperScissors rockPaperScissors) {
+        public override void Update(GameTime gameTime) {
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             centerText = "Rock";
@@ -23,18 +24,18 @@ namespace CoinFlip.States.GameStates.RockPaperScissorsStates {
             // process inputs
             // 1: Rock, 2: Paper, 3: Scissors
             if (MinigameInputManager.OnKeyPress(Keys.D1)) {
-                option = rockPaperScissors.Choices[0];
+                option = _rockPaperScissors.Choices[0];
             }
             else if (MinigameInputManager.OnKeyPress(Keys.D2)) {
-                option = rockPaperScissors.Choices[1];
+                option = _rockPaperScissors.Choices[1];
             }
             else if (MinigameInputManager.OnKeyPress(Keys.D3)) {
-                option = rockPaperScissors.Choices[2];
+                option = _rockPaperScissors.Choices[2];
             }
 
             if (currentTime >= 3f) {
-                rockPaperScissors.P1Result = option;
-                rockPaperScissors.ChangeState(new ResolveState());
+                _rockPaperScissors.P1Result = option;
+                _rockPaperScissors.ChangeState(new ResolveState(_rockPaperScissors));
             };
         }
 

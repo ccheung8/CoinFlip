@@ -30,7 +30,7 @@ namespace CoinFlip.Models.Memory {
             GameOrder = new List<MemoryTexture>();
             GameOrderQueue = new Queue<MemoryTexture>();
 
-            _gameState = new PlaybackState();
+            _gameState = new PlaybackState(this);
 
             Rectangle viewport = Game1._graphics.GraphicsDevice.Viewport.Bounds;
             int textureSize = viewport.Height / 4;
@@ -59,7 +59,7 @@ namespace CoinFlip.Models.Memory {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -79,7 +79,7 @@ namespace CoinFlip.Models.Memory {
             Round = 1;
             GameOrder.Clear();
             GameOrderQueue.Clear();
-            _gameState = new PlaybackState();
+            _gameState = new PlaybackState(this);
         }
 
         public MemoryTexture GetClickedMemoryTexture() {

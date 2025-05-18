@@ -28,7 +28,7 @@ namespace CoinFlip.Models.Concentration {
 
         public Concentration(ContentManager content) {
             Message = "Concentration";
-            _gameState = new FlipFirstCardState();
+            _gameState = new FlipFirstCardState(this);
 
             Texture2D back = content.Load<Texture2D>("Concentration/Card_Back");
             Rectangle window = Game1._graphics.GraphicsDevice.PresentationParameters.Bounds;
@@ -65,7 +65,7 @@ namespace CoinFlip.Models.Concentration {
         }
 
         public void Update(GameTime gameTime) {
-            _gameState.Update(gameTime, this);
+            _gameState.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {
@@ -84,7 +84,7 @@ namespace CoinFlip.Models.Concentration {
             foreach (Card card in Cards) {
                 card.Reset();
             }
-            _gameState = new FlipFirstCardState();
+            _gameState = new FlipFirstCardState(this);
         }
 
         public Card GetClickedCard() {

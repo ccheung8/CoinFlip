@@ -2,18 +2,20 @@
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.TicTacToeStates {
-    internal class OPlayerState : GameState<TicTacToe> {
-        public override void Update(GameTime gameTime, TicTacToe ticTacToe) {
-            ticTacToe._activeTurn = ticTacToe.O;
-            TicTacToePiece ticTacToePiece = ticTacToe.GetClickedPiece();
+    internal class OPlayerState(TicTacToe ticTacToe) : GameState<TicTacToe> {
+        private readonly TicTacToe _ticTacToe = ticTacToe;
+
+        public override void Update(GameTime gameTime) {
+            _ticTacToe._activeTurn = _ticTacToe.O;
+            TicTacToePiece ticTacToePiece = _ticTacToe.GetClickedPiece();
 
             if (ticTacToePiece != null) {
                 // sets texture to O
-                ticTacToePiece._activePiece = ticTacToe.O;
+                ticTacToePiece._activePiece = _ticTacToe.O;
                 // sets Id
                 ticTacToePiece.Id = 2;
                 // TODO: switch to resolve state to check winner
-                ticTacToe.ChangeState(new ResolveState());
+                _ticTacToe.ChangeState(new ResolveState(_ticTacToe));
             }
         }
     }

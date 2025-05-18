@@ -1,26 +1,27 @@
-﻿using System.Diagnostics;
-using CoinFlip.Models.Memory;
+﻿using CoinFlip.Models.Memory;
 using CoinFlip.Statics;
 using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.MemoryStates {
     internal class RoundTransitionState : GameState<Memory> {
+        private readonly Memory _memory;
         private float time;
         private string message;
 
-        public RoundTransitionState() {
+        public RoundTransitionState(Memory memory) {
+            _memory = memory;
             MinigameInputManager.AllowInput = false;
             message = "";
         }
 
-        public override void Update(GameTime gameTime, Memory memory) {
-            message = $"Round {memory.Round}";
+        public override void Update(GameTime gameTime) {
+            message = $"Round {_memory.Round}";
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // resets queue for playback and changes state
             if (time > Memory.LIGHT_DURATION) {
                 Memory.GameOrderQueue = new(Memory.GameOrder);
-                memory.ChangeState(new PlaybackState()); 
+                _memory.ChangeState(new PlaybackState(_memory)); 
             }
         }
 

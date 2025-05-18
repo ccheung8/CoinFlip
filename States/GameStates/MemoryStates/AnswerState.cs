@@ -5,15 +5,18 @@ using System.Diagnostics;
 
 namespace CoinFlip.States.GameStates.MemoryStates {
     internal class AnswerState : GameState<Memory> {
-        public AnswerState() {
+        private readonly Memory _memory;
+
+        public AnswerState(Memory memory) {
             MinigameInputManager.AllowInput = true;
+            _memory = memory;
         }
 
-        public override void Update(GameTime gameTime, Memory memory) {
-            MemoryTexture texture = memory.GetClickedMemoryTexture();
+        public override void Update(GameTime gameTime) {
+            MemoryTexture texture = _memory.GetClickedMemoryTexture();
 
             // when texture is set, 
-            if (texture != null) memory.ChangeState(new CheckAnswerState(texture, MinigameInputManager.MouseX, MinigameInputManager.MouseY));
+            if (texture != null) _memory.ChangeState(new CheckAnswerState(_memory, texture, MinigameInputManager.MouseX, MinigameInputManager.MouseY));
         }
     }
 }

@@ -4,17 +4,20 @@ using Microsoft.Xna.Framework;
 
 namespace CoinFlip.States.GameStates.MathGameStates {
     internal class AnswerState : GameState<MathGame> {
-        public AnswerState() {
+        private readonly MathGame _mathGame;
+
+        public AnswerState(MathGame mathGame) {
             MinigameInputManager.AllowInput = true;
+            _mathGame = mathGame;
         }
 
-        public override void Update(GameTime gameTime, MathGame mathGame) {
-            MathChoice choice = mathGame.GetClickedChoice();
+        public override void Update(GameTime gameTime) {
+            MathChoice choice = _mathGame.GetClickedChoice();
 
             if (choice != null) {
-                mathGame.ChosenAnswer = choice;
+                _mathGame.ChosenAnswer = choice;
                 choice.HasBeenChosen = true;
-                mathGame.ChangeState(new CheckAnswerState());
+                _mathGame.ChangeState(new CheckAnswerState(_mathGame));
             }
         }
     }
