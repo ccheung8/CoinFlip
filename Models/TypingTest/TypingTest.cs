@@ -29,17 +29,15 @@ namespace CoinFlip.Models.TypingTest {
         public float DrawWidth { get; } = Game1._font.MeasureString("W").X * 70;
 
         private GameState<TypingTest> _gameState;
-        private readonly string[] _prompts; // stores possible prompts
         private int _line = 0;  // helper variable to keep track of lines
 
         public TypingTest(ContentManager content) {
             Message = "Typing Test";
 
-            _prompts = ["The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog."];
-
             // calls wrap text on prompt with a maxwidth of 70 characters or half of screen size (uses "W" as reference for char size)
             DrawWidth = DrawWidth > Game1._graphics.GraphicsDevice.Viewport.Width / 2 ? 500 : DrawWidth;
-            Prompt = StringAlignment.WrapText(Game1._font, _prompts[0], DrawWidth);
+            Prompt = StringAlignment.WrapText(Game1._font,
+                TypingPrompts.Prompts[Game1._random.Next(TypingPrompts.Prompts.Length - 1)], DrawWidth);
             Words = new Queue<string>(Prompt.Split(" ", StringSplitOptions.RemoveEmptyEntries));
             Word = Words.Dequeue();
 
@@ -71,10 +69,15 @@ namespace CoinFlip.Models.TypingTest {
             P1Result = null;
             P2Result = null;
             Result = null;
-
             _gameState = new TypingState(this);
-            Prompt = StringAlignment.WrapText(Game1._font, _prompts[0], DrawWidth);
-            Words = new Queue<string>(Prompt.Split(" "));
+
+            WordColor = Color.Black;
+            TypedString = "";
+            TypedWord = TypedLine = new StringBuilder();
+
+            Prompt = StringAlignment.WrapText(Game1._font,
+                TypingPrompts.Prompts[Game1._random.Next(TypingPrompts.Prompts.Length - 1)], DrawWidth);
+            Words = new Queue<string>(Prompt.Split(" ", StringSplitOptions.RemoveEmptyEntries));
             Word = Words.Dequeue();
         }
 
